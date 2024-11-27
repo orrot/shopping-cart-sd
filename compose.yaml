@@ -1,0 +1,13 @@
+services:
+  mysql:
+    image: 'mysql:9.1'
+    environment:
+      - 'MYSQL_DATABASE=shopping-cart-sd'
+      - 'MYSQL_PASSWORD=12345'
+      - 'MYSQL_USER=root'
+    ports:
+      - '3306'
+volumes:
+  db:
+    driver:
+      mysql-shopping-cart-sd
