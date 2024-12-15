@@ -13,4 +13,6 @@ public interface CartOutputPort {
     Cart update(@NotNull @Valid Cart cartToUpdate);
 
     Optional<Cart> findById(Long cartId);
+
+    boolean existsById(Long cartId);
 }

@@ -2,7 +2,6 @@ package com.orrot.store.shoppingcart.adapter.input;
 
 import com.orrot.store.shoppingcart.adapter.input.model.CartView;
 import com.orrot.store.shoppingcart.adapter.input.model.IdentityId;
-import com.orrot.store.shoppingcart.port.usecases.CreateCartUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/carts")
 @Tag(name = "Carts")
 @RequiredArgsConstructor
+// TODO Document rest API
 public class CartRestAdapter {
 
-    private final CreateCartUseCase createCartUseCase;
+    //private final CreateCartUseCase createCartUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -24,7 +24,6 @@ public abstract class CartDomainMapper {
 
     public abstract CartJpaEntity mapToJpaEntity(Cart domain);
 
-    @Mapping(target = "cartItems", ignore = true)
     public abstract Cart mapToDomain(CartJpaEntity entity);
 
     @Mapping(target = "cartItems", ignore = true)
@@ -45,7 +44,7 @@ public abstract class CartDomainMapper {
         entity.getCartItems()
                 .stream()
                 .map(cartItemDomainMapper::mapToDomain)
-                .forEach(item -> domain.addCartItem(
+                .forEach(item -> domain.addOrUpdateItem(
                         item.getProductId(), item.getProductName(), item.getCurrentPrice(), item.getQuantity()));
     }
 }

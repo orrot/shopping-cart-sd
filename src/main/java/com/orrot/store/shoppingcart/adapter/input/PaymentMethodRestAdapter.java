@@ -1,11 +1,13 @@
 package com.orrot.store.shoppingcart.adapter.input;
 
 import com.orrot.store.shoppingcart.adapter.input.model.PaymentMethodView;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,8 @@ public class PaymentMethodRestAdapter {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<PaymentMethodView> listPayments(@ParameterObject Pageable pageable) {
+    @Operation(summary = "List all payment methods")
+    public Page<PaymentMethodView> listPayments(@ParameterObject @PageableDefault(size = 20) Pageable pageable) {
         return new PageImpl<>(List.of());
     }
 }

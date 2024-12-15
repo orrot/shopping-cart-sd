@@ -1,0 +1,1 @@
+DELETE FROM cart WHERE id = -15;

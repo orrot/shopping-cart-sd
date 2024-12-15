@@ -1,14 +1,12 @@
 package com.orrot.store.shoppingcart.adapter.output.jpa.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class CartItemJpaId {
 
     private Long cart;

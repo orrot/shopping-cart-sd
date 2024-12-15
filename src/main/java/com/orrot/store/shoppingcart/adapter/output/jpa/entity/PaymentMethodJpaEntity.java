@@ -2,7 +2,6 @@ package com.orrot.store.shoppingcart.adapter.output.jpa.entity;
 
 
 import com.orrot.store.common.BaseJpaEntity;
-import com.orrot.store.shoppingcart.domain.model.FeeCalculationMethod;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,11 +45,11 @@ public class PaymentMethodJpaEntity extends BaseJpaEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "fee_calc_method")
-    private FeeCalculationMethod feeCalcMethod;
+    @Column(name = "percentage_fee_value")
+    private BigDecimal percentageFeeValue;
 
-    @Column(name = "fee_value")
-    private BigDecimal feeValue;
+    @Column(name = "fixed_fee_value")
+    private BigDecimal fixedFeeValue;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "paymentMethod")
     @EqualsAndHashCode.Exclude

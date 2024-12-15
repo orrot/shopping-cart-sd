@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +33,18 @@ import java.util.List;
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
+@NamedEntityGraph(name = "Cart.fullInfo",
+        attributeNodes = {
+                @NamedAttributeNode("paymentMethod"),
+                @NamedAttributeNode(value = "cartItems", subgraph = "cartItems.withProduct") // Just One Collection loaded, NO MORE
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "cartItems.withProduct",
+                        attributeNodes = {
+                                @NamedAttributeNode("product")
+                        }
+                )
+        })
 public class CartJpaEntity extends BaseJpaEntity {
 
     @Serial

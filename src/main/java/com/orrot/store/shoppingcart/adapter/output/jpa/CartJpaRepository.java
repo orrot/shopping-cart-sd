@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CartJpaRepository extends JpaRepository<CartJpaEntity, Long> {
 
-    @EntityGraph("Cart.withItems")
     @NonNull
+    @EntityGraph("Cart.fullInfo")
     Optional<CartJpaEntity> findById(@NonNull Long cartId);
 }
