@@ -1,14 +1,23 @@
 package com.orrot.store.cart.domain.model;
 
-import com.orrot.store.cart.domain.exception.QuantityLessThanZeroException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.SequencedMap;
 
 /*
     * Cart class represents a shopping cart.
@@ -61,32 +70,39 @@ public class Cart implements Serializable {
                 .build();
     }
 
-    public void addOrUpdateItem(Long productIdToAdd, BigDecimal price, int quantity) {
-        addOrUpdateItem(productIdToAdd, null, price, quantity);
+    public void addItems(Long productIdToAdd, String productName, BigDecimal price, int quantity) {
+
+        var newCartItem = CartItem.of(productIdToAdd, productName, price, quantity);
+        cartItemsByProductId.compute(productIdToAdd,
+                (productId, existingCartItem) ->
+                        Optional.ofNullable(existingCartItem)
+                                .map(v -> v.toBuilder().quantity(v.getQuantity() + quantity).build())
+                                .orElse(newCartItem));
     }
 
-    public void addOrUpdateItem(Long productIdToAdd, String productName, BigDecimal price, int quantity) {
+    public void removeItems(Long productIdToRemove, int quantity) {
+        var itemToRemove = CartItem.of(productIdToRemove, quantity);
 
-        if (quantity < 0) {
-            throw new QuantityLessThanZeroException("Quantity must be greater or equals to '0'");
-        }
-
-        cartItemsByProductId.compute(productIdToAdd,
-                (productId, existingItem) -> {
-                    var cartItemToBeAdded = Optional.ofNullable(existingItem)
-                            .map(item ->
-                                    item.toBuilder().quantity(quantity).build())
-                            .orElseGet(() ->
-                                    CartItem.of(productIdToAdd, productName, price, quantity));
-                    // Null in compute means that the item will be removed if required or just not added.
-                    return cartItemToBeAdded.getQuantity() != 0 ? cartItemToBeAdded : null;
+        cartItemsByProductId.computeIfPresent(productIdToRemove,
+                (productId, existingCartItem) -> {
+                    var newQuantity = existingCartItem.getQuantity() - itemToRemove.getQuantity();
+                    if (newQuantity <= 0) {
+                        return null;
+                    }
+                    return existingCartItem.toBuilder().quantity(newQuantity).build();
                 });
     }
 
+    public void replaceItemWithFixedQuantity(Long productId, String productName, BigDecimal price, int quantity) {
+
+        var itemToReplace = CartItem.of(productId, productName, price, quantity);
+        cartItemsByProductId.put(productId, itemToReplace);
+    }
+
+
     public BigDecimal getTotal() {
 
-        return cartItemsByProductId
-                .values()
+        return cartItemsByProductId.values()
                 .stream()
                 .map(CartItem::getSubtotal)
                 .filter(Objects::nonNull)

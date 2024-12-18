@@ -65,7 +65,7 @@ class CartJsonViewMapperTest {
                             .build())
                     .build();
 
-           cart.addOrUpdateItem(1L, "product1", BigDecimal.valueOf(10_000), 5);
+           cart.addItems(1L, "product1", BigDecimal.valueOf(10_000), 5);
 
             var cartView = mapper.mapToView(cart);
 

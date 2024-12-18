@@ -22,6 +22,7 @@ public class Product {
     @NotNull(message = "Product ID is required")
     private Long id;
 
+    @NotNull(message = "Product name is required")
     private String name;
 
     @Positive(message = "Unit price must be greater or equals to zero")

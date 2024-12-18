@@ -1,6 +1,9 @@
 package com.orrot.store.cart.port.usecase;
 
+import com.orrot.store.cart.adapter.input.json.CartItemPatch;
+
 // It could be named "ForAddingItemToCart".
 public interface AddOrUpdateCartItemsUseCase {
-    void addOrUpdateCartItem(Long cartId, Long productId, int quantity);
+
+    void addOrUpdateCartItem(CartItemPatch.CartOperation operation, Long cartId, Long productId, int quantity);
 }

@@ -28,7 +28,7 @@ public class MainTest {
                         .build())
                 .build();
 
-        cart.addOrUpdateItem(1L, "", BigDecimal.TEN, 2);
+        cart.addItems(1L, "", BigDecimal.TEN, 2);
         cartRepository.create(cart);
     }
 
@@ -41,7 +41,7 @@ public class MainTest {
                         .build())
                 .build();
 
-        cart.addOrUpdateItem(3L, BigDecimal.TEN, 10);
+        cart.addItems(3L, "Banana", BigDecimal.TEN, 10);
         cartRepository.update(cart);
     }
 
@@ -54,7 +54,7 @@ public class MainTest {
                         .build())
                 .build();
 
-        cart.addOrUpdateItem(3L, BigDecimal.TEN, 10);
+        cart.addItems(3L, "Banana", BigDecimal.TEN, 10);
         cartRepository.update(cart);
     }
 
@@ -67,7 +67,7 @@ public class MainTest {
                         .build())
                 .build();
 
-        cart.addOrUpdateItem(3L, BigDecimal.TEN, 10);
+        cart.addItems(3L, "Banana" ,BigDecimal.TEN, 10);
         cartRepository.update(cart);
     }
 

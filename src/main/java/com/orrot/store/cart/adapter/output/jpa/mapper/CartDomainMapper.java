@@ -45,7 +45,7 @@ public abstract class CartDomainMapper implements BaseDomainMapper<Cart, CartJpa
         entity.getItems()
                 .stream()
                 .map(cartItemDomainMapper::mapToDomain)
-                .forEach(item -> domain.addOrUpdateItem(
+                .forEach(item -> domain.addItems(
                         item.getProductId(), item.getProductName(), item.getCurrentPrice(), item.getQuantity()));
     }
 }

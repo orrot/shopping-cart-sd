@@ -7,7 +7,6 @@ import com.orrot.store.cart.domain.service.rules.CartRule;
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
 import com.orrot.store.common.exception.UnExistingEntityException;
-import com.orrot.store.product.domain.model.Product;
 import io.vavr.control.Either;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -43,31 +43,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateEditableCartInfo(Long cartId, String paymentMethodCode, String cartUserOwner) {
-        var cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new UnExistingEntityException(
-                        "Cart ID '%d' must exist to be updated", cartId));
-
-        // Only payment and owner can be updated
-        if (paymentMethodCode != null) {
-            cart.updatePaymentMethod(paymentMethodCode);
-        }
-        if (cartUserOwner != null) {
-            cart.associateCartToOwner(cartUserOwner);
-        }
-        throwExceptionIfBrokenRule(cart, "The cart cannot be updated");
-
-        cartRepository.update(cart);
+    public void updateCart(@NotNull @Valid Cart cartToUpdate) {
+        throwExceptionIfBrokenRule(cartToUpdate, "The cart cannot be updated");
+        cartRepository.update(cartToUpdate);
     }
 
     @Override
-    public void addOrUpdateCartItem(Long cartId, @Valid Product product, int quantity) {
-
-        var cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new UnExistingEntityException(
-                        "Cart ID '%d' of the item to be added must exist", cartId));
-        cart.addOrUpdateItem(product.getId(), product.getPrice(), quantity);
-        cartRepository.update(cart);
+    public Optional<Cart> findById(Long cartId) {
+        return cartRepository.findById(cartId);
     }
 
     private void throwExceptionIfBrokenRule(Cart cartToCreate, String generalErrorMessage) {

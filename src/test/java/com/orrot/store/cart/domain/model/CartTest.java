@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class CartTotalCalculationTest {
+class CartTest {
 
     private final PaymentMethod VISA_PAYMENT_METHOD = PaymentMethod.builder()
             .code("VISA")
@@ -59,9 +59,9 @@ class CartTotalCalculationTest {
                     .paymentMethod(CASH_PAYMENT_METHOD)
                     .build();
 
-            cart.addOrUpdateItem(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
-            cart.addOrUpdateItem(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
-            cart.addOrUpdateItem(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
+            cart.addItems(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
+            cart.addItems(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
+            cart.addItems(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
 
             // When
             var total = cart.getTotal();
@@ -86,9 +86,9 @@ class CartTotalCalculationTest {
                     .paymentMethod(PAYMENT_METHOD_NULL_VALUES)
                     .build();
 
-            cart.addOrUpdateItem(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
-            cart.addOrUpdateItem(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
-            cart.addOrUpdateItem(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
+            cart.addItems(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
+            cart.addItems(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
+            cart.addItems(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
 
             // When
             var totalWithFee = cart.getTotalWithFee();
@@ -109,9 +109,9 @@ class CartTotalCalculationTest {
                     .paymentMethod(VISA_PAYMENT_METHOD) // fee is 2% or 0.02
                     .build();
 
-            cart.addOrUpdateItem(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
-            cart.addOrUpdateItem(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
-            cart.addOrUpdateItem(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
+            cart.addItems(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
+            cart.addItems(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
+            cart.addItems(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
 
             // When
             var totalWithFee = cart.getTotalWithFee();

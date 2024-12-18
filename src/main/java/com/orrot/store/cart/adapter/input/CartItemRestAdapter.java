@@ -1,6 +1,6 @@
 package com.orrot.store.cart.adapter.input;
 
-import com.orrot.store.cart.adapter.input.json.CartItemWrite;
+import com.orrot.store.cart.adapter.input.json.CartItemPatch;
 import com.orrot.store.cart.port.usecase.AddOrUpdateCartItemsUseCase;
 import com.orrot.store.cart.port.usecase.CountCartItemsUseCase;
 import com.orrot.store.common.rest.ResourcesURI;
@@ -28,11 +28,14 @@ public class CartItemRestAdapter {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Add a particular product to the Cart in an specified quantity. If the quantity is 0, the item is removed from the cart.")
+    @Operation(summary = "Allows to ADD, REMOVE or SET_FIXED_QUANTITY for a Cart Item. " +
+            "ADD: Adds the quantity to the existing one. " +
+            "REMOVE: Removes the quantity from the existing one. " +
+            "SET_FIXED_QUANTITY: Sets the quantity to the specified product.")
     public void addOrUpdateCartItem(@PathVariable("cartId") Long cartId,
-                                    @RequestBody CartItemWrite cartItem) {
+                                    @RequestBody CartItemPatch cartItem) {
         addOrUpdateCartItemsUseCase
-                .addOrUpdateCartItem(cartId, cartItem.productId(), cartItem.quantity());
+                .addOrUpdateCartItem(cartItem.operation(), cartId, cartItem.productId(), cartItem.quantity());
     }
 
     @GetMapping("/count")
