@@ -6,57 +6,34 @@ import com.orrot.store.cart.adapter.output.jpa.mapper.CartDomainMapper;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.common.exception.DomainSavingException;
+import com.orrot.store.common.jpa.BaseDomainRepository;
 import io.vavr.control.Either;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Repository
 @Transactional
-@RequiredArgsConstructor
 @Validated
-public class CartRepository implements CartOutputPort {
+public class CartRepository extends BaseDomainRepository<Cart, CartJpaEntity, Long> implements CartOutputPort {
 
     private final CartJpaRepository cartJpaRepository;
-    private final CartDomainMapper cartDomainMapper;
+    // Declare the mapper if needed here
 
-    @Override
-    public Cart create(@NotNull @Valid Cart cartToCreate) {
-        return Optional.of(cartToCreate)
-                .map(cartDomainMapper::mapToJpaEntity)
-                .map(cartJpaRepository::save)
-                .map(cartDomainMapper::mapToDomain)
-                .orElseThrow(() -> new DomainSavingException("The cart ID must be null to create a new one"));
+    public CartRepository(CartJpaRepository cartJpaRepository, CartDomainMapper cartDomainMapper) {
+        super(cartJpaRepository, cartDomainMapper);
+        this.cartJpaRepository = cartJpaRepository;
     }
 
     @Override
-    public Cart update(@NotNull @Valid Cart cartToUpdate) {
-        return Either.<DomainSavingException, Cart>right(cartToUpdate)
+    public void update(Cart cartToUpdate) {
+        Either.<DomainSavingException, Cart>right(cartToUpdate)
                 .map(Cart::getId)
-                .filterOrElse(Objects::nonNull,
-                        cartId -> new DomainSavingException("The cart ID must not be null to update a cart") )
-                .map(cartJpaRepository::findById)
-                .filterOrElse(Optional::isPresent,
-                        optional -> new DomainSavingException("The cart ID '%d' does not exist", cartToUpdate.getId()))
-                .map(Optional::get)
-                .map(existingCartEntity -> cartDomainMapper.mapToExistingEntity(cartToUpdate, existingCartEntity))
-                .map(cartJpaRepository::save)
-                .map(cartDomainMapper::mapToDomain)
+                .map(cartId -> update(cartId, cartToUpdate))
                 .getOrElseThrow(Function.identity());
-    }
-
-    @Override
-    public Optional<Cart> findById(Long cartId) {
-        return cartJpaRepository.findById(cartId)
-                .map(cartDomainMapper::mapToDomain);
     }
 
     @Override

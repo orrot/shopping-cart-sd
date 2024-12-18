@@ -28,7 +28,7 @@ public class CartItemRestAdapter {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Add the quantity specified to the item cart. If the quantity is 0, the item is removed from the cart.")
+    @Operation(summary = "Add a particular product to the Cart in an specified quantity. If the quantity is 0, the item is removed from the cart.")
     public void addOrUpdateCartItem(@PathVariable("cartId") Long cartId,
                                     @RequestBody CartItemWrite cartItem) {
         addOrUpdateCartItemsUseCase
@@ -37,7 +37,7 @@ public class CartItemRestAdapter {
 
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Returns the count of the cart items only for the specified Cart ID.")
+    @Operation(summary = "Returns only the count of the cart items for the specified Cart ID.")
     public TotalCount countCartItems(@PathVariable("cartId") Long cartId) {
         // Consider combine Query Params and Specifications for more dynamic queries
         return new TotalCount(

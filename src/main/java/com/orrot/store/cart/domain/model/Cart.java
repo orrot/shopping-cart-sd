@@ -3,22 +3,12 @@ package com.orrot.store.cart.domain.model;
 import com.orrot.store.cart.domain.exception.QuantityLessThanZeroException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.SequencedMap;
+import java.util.*;
 
 /*
     * Cart class represents a shopping cart.
@@ -60,7 +50,7 @@ public class Cart implements Serializable {
     }
 
     // TODO Unit test
-    public void associateCartToOwner(String userToAssociate ) {
+    public void associateCartToOwner(String cartUserOwner) {
         this.cartUserOwner = cartUserOwner;
     }
 

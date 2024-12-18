@@ -2,6 +2,7 @@ package com.orrot.store.cart.adapter.output.jpa.mapper;
 
 import com.orrot.store.cart.adapter.output.jpa.entity.CartJpaEntity;
 import com.orrot.store.cart.domain.model.Cart;
+import com.orrot.store.common.jpa.BaseDomainMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.CollectionMappingStrategy;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,
         uses = {PaymentMethodDomainMapper.class})
 @RequiredArgsConstructor
-public abstract class CartDomainMapper {
+public abstract class CartDomainMapper implements BaseDomainMapper<Cart, CartJpaEntity> {
 
     @Autowired
     private CartItemDomainMapper cartItemDomainMapper;

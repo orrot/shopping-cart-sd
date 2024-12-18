@@ -24,7 +24,7 @@ public class GeneralExceptionHandler {
         return Optional.of(exception)
                 .filter(BusinessRuleException::hasBrokenRules)
                 .map(BusinessRuleException::getBrokenRules)
-                .map(brokenRules -> new SimpleErrorMessage("%s. Reasons: %s".formatted(
+                .map(brokenRules -> new SimpleErrorMessage("%s. %s".formatted(
                         exception.getMessage(), StringUtils.join(brokenRules, ", "))))
                 .orElse(new SimpleErrorMessage(exception.getMessage()));
     }

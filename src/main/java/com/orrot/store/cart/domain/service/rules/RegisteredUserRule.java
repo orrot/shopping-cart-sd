@@ -1,7 +1,6 @@
-package com.orrot.store.cart.domain.service.rules.impl;
+package com.orrot.store.cart.domain.service.rules;
 
 import com.orrot.store.cart.domain.model.Cart;
-import com.orrot.store.cart.domain.service.rules.CartRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class RegisteredUserRule extends CartRule {
+public final class RegisteredUserRule extends CartRule {
 
     @Override
     public boolean isSatisfiedBy(Cart cart) {
