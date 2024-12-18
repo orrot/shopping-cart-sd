@@ -1,9 +1,9 @@
 package com.orrot.store;
 
-import com.orrot.store.shoppingcart.adapter.output.CartItemJpaRepository;
-import com.orrot.store.shoppingcart.adapter.output.CartRepository;
-import com.orrot.store.shoppingcart.domain.model.Cart;
-import com.orrot.store.shoppingcart.domain.model.PaymentMethod;
+import com.orrot.store.cart.adapter.output.jpa.CartItemJpaRepository;
+import com.orrot.store.cart.adapter.output.CartRepository;
+import com.orrot.store.cart.domain.model.Cart;
+import com.orrot.store.cart.domain.model.PaymentMethod;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

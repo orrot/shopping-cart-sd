@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS cart (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    payment_code VARCHAR(50) NOT NULL,
-    associated_user_id INT DEFAULT NULL,
+    payment_method_code VARCHAR(50) NOT NULL,
+    cart_user_owner VARCHAR(100) DEFAULT NULL,
     created_by VARCHAR(100) NOT NULL,
     created_date DATETIME NOT NULL,
     last_modified_by VARCHAR(100) NOT NULL,
     last_modified_date DATETIME NOT NULL,
-    CONSTRAINT fk_payment_cart FOREIGN KEY (payment_code) REFERENCES payment(code),
+    CONSTRAINT fk_payment_method_cart FOREIGN KEY (payment_method_code) REFERENCES payment_method(code),
 	PRIMARY KEY (id));
 
 

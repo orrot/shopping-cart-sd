@@ -1,7 +1,7 @@
 package com.orrot.store;
 
-import com.orrot.store.shoppingcart.adapter.output.CartRepository;
-import com.orrot.store.shoppingcart.domain.model.Cart;
+import com.orrot.store.cart.adapter.output.CartRepository;
+import com.orrot.store.cart.domain.model.Cart;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Order;
