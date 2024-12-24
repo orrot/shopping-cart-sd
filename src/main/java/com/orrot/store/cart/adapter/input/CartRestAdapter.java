@@ -42,6 +42,6 @@ public class CartRestAdapter {
     @Operation(summary = "Allows to update the cart payment method and user associated to the cart. No Other field can be modified")
     public void updateCart(@RequestBody CartWrite cartJson) {
         updateCartInfoUseCase.updateCartInfo(
-                cartJson.id(), cartJson.paymentMethodCode(), cartJson.cartUserOwner());
+                cartJson.id(), cartJson.paymentMethodCode(), cartJson.onlineClientIdToAssociate());
     }
 }

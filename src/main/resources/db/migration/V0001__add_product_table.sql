@@ -16,8 +16,6 @@ INSERT INTO product (name, current_price, description, created_by, created_date,
            ('Orange', 1000.00, 'Fruit by unit', 'admin', NOW(), 'admin', NOW()),
            ('Strawberry', 2000.00, 'Kg price', 'admin', NOW(), 'admin', NOW());
 
-
-
 -- ROLLBACK
 -- DELETE FROM flyway_schema_history WHERE version = '0001';
 -- DROP TABLE product;

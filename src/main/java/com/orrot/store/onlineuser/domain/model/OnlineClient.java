@@ -1,7 +1,8 @@
-package com.orrot.store.product.domain.model;
+package com.orrot.store.onlineuser.domain.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.persistence.Column;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,21 +10,21 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
-public class Product {
+public class OnlineClient {
 
     private Long id;
 
-    @NotNull(message = "Product name is required")
+    @NotEmpty(message = "Client name is required")
+    @Column(name = "name")
+    @ToString.Include
     private String name;
 
-    @Positive(message = "Unit price must be greater or equals to zero")
-    private BigDecimal price;
+    @Valid
+    private Address address;
 }

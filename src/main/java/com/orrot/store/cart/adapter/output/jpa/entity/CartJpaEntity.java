@@ -1,6 +1,7 @@
 package com.orrot.store.cart.adapter.output.jpa.entity;
 
 import com.orrot.store.common.jpa.BaseJpaEntity;
+import com.orrot.store.onlineuser.adapter.output.jpa.entity.OnlineClientJpaEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,9 +61,9 @@ public class CartJpaEntity extends BaseJpaEntity {
     @JoinColumn(name = "payment_method_code", referencedColumnName = "code")
     private PaymentMethodJpaEntity paymentMethod;
 
-    @Column(name = "cart_user_owner")
-    @ToString.Include
-    private String cartUserOwner;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "online_client_owner", referencedColumnName = "id")
+    private OnlineClientJpaEntity onlineClientOwner;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

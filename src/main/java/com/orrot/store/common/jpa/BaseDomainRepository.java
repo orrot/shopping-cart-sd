@@ -1,8 +1,13 @@
 package com.orrot.store.common.jpa;
 
 import com.orrot.store.common.exception.DomainSavingException;
+import com.orrot.store.common.exception.GeneralShoppingCartException;
+import com.orrot.store.common.exception.UnExistingEntityException;
 import io.vavr.control.Either;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -12,7 +17,6 @@ import java.util.function.Function;
  * @param <E> Any Hibernate Entity Class
  * @param <I> The ID of the Hibernate Entity Class
  */
-// TODO Unit tests
 public abstract class BaseDomainRepository<D, E, I> {
 
     protected BaseDomainMapper<D, E> domainMapper;
@@ -40,10 +44,12 @@ public abstract class BaseDomainRepository<D, E, I> {
      * updated.
      */
     public D update(I id, D domainToUpdate) {
-        return Either.<DomainSavingException, I>right(id)
+        return Either.<GeneralShoppingCartException, I>right(id)
+                .filterOrElse(Objects::nonNull,
+                        optional -> new DomainSavingException("The ID '%d' must not be null"))
                 .map(domainJpaRepository::findById)
                 .filterOrElse(Optional::isPresent,
-                        optional -> new DomainSavingException("The ID '%d' does not exist", id))
+                        optional -> new UnExistingEntityException("The ID '%d' does not exist", id))
                 .map(Optional::get)
                 .map(existingEntity -> domainMapper
                         .mapToExistingEntity(domainToUpdate, existingEntity))
@@ -57,6 +63,14 @@ public abstract class BaseDomainRepository<D, E, I> {
      */
     public Optional<D> findById(I id) {
         return domainJpaRepository.findById(id)
+                .map(domainMapper::mapToDomain);
+    }
+
+    /**
+     * Finds a domain by its ID. If the domain is not found, it returns an empty Optional.
+     */
+    public Page<D> findAll(Pageable pageable) {
+        return domainJpaRepository.findAll(pageable)
                 .map(domainMapper::mapToDomain);
     }
 

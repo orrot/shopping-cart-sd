@@ -1,14 +1,14 @@
 CREATE TABLE IF NOT EXISTS cart (
     id BIGINT NOT NULL AUTO_INCREMENT,
     payment_method_code VARCHAR(50) NOT NULL,
-    cart_user_owner VARCHAR(100) DEFAULT NULL,
+    online_client_id_owner BIGINT DEFAULT NULL,
     created_by VARCHAR(100) NOT NULL,
     created_date DATETIME NOT NULL,
     last_modified_by VARCHAR(100) NOT NULL,
     last_modified_date DATETIME NOT NULL,
-    CONSTRAINT fk_payment_method_cart FOREIGN KEY (payment_method_code) REFERENCES payment_method(code),
+    CONSTRAINT fk_cart_payment_method FOREIGN KEY (payment_method_code) REFERENCES payment_method(code),
+    CONSTRAINT fk_cart_online_client FOREIGN KEY (online_client_id_owner) REFERENCES online_client(id),
 	PRIMARY KEY (id));
-
 
 CREATE TABLE IF NOT EXISTS cart_item (
     cart_id BIGINT NOT NULL,
@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS cart_item (
 	PRIMARY KEY (cart_id, product_id));
 
 -- ROLLBACK
--- DELETE FROM flyway_schema_history WHERE version = '0003';
+-- DELETE FROM flyway_schema_history WHERE version = '0004';
 -- DROP TABLE cart;
 -- DROP TABLE cart_item;

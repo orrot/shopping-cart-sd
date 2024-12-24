@@ -12,7 +12,7 @@ import java.util.Optional;
 public record CartWrite(
         Long id,
         IdentityCode paymentMethod,
-        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) String cartUserOwner) {
+        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) Long onlineClientIdToAssociate) {
 
 
     public String paymentMethodCode() {

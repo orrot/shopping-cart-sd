@@ -13,7 +13,7 @@ public final class RegisteredUserRule extends CartRule {
     @Override
     public boolean isSatisfiedBy(Cart cart) {
         // TODO Validate the user here
-        log.info("=================================================================================User {} is valid", cart.getCartUserOwner());
+        log.info("=================================================================================User {} is valid", cart.getOnlineClientIdOwner());
         return true;
     }
 

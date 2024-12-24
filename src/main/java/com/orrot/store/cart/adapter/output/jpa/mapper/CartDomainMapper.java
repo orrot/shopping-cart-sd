@@ -23,10 +23,6 @@ public abstract class CartDomainMapper implements BaseDomainMapper<Cart, CartJpa
     @Autowired
     private CartItemDomainMapper cartItemDomainMapper;
 
-    public abstract CartJpaEntity mapToJpaEntity(Cart domain);
-
-    public abstract Cart mapToDomain(CartJpaEntity entity);
-
     @Mapping(target = "items", ignore = true)
     public abstract CartJpaEntity mapToExistingEntity(Cart domain, @MappingTarget CartJpaEntity entity);;
 

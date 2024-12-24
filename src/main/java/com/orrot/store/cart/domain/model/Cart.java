@@ -50,7 +50,7 @@ public class Cart implements Serializable {
 
     @Getter
     @ToString.Include
-    private String cartUserOwner;
+    private Long onlineClientIdOwner;
 
     private final SequencedMap<Long, @Valid CartItem> cartItemsByProductId = new LinkedHashMap<>();
 
@@ -59,8 +59,8 @@ public class Cart implements Serializable {
     }
 
     // TODO Unit test
-    public void associateCartToOwner(String cartUserOwner) {
-        this.cartUserOwner = cartUserOwner;
+    public void associateCartToOwner(Long onlineClientIdToAssociate) {
+        this.onlineClientIdOwner = onlineClientIdToAssociate;
     }
 
     // TODO Unit test

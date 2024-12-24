@@ -11,13 +11,13 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ProductJsonViewMapperTest {
+class OnlineClientJsonViewMapperTest {
 
     private final ProductJsonViewMapper mapper = Mappers.getMapper(ProductJsonViewMapper.class);
 
     @Nested
     @DisplayName("When Mapping Products to JSON Views")
-    class WhenMappingJsonProductViewsToDomainProducts {
+    class WhenMappingJsonOnlineClientViewsToDomainProducts {
 
         @Test
         @DisplayName("Should map Product to JSON correctly")
