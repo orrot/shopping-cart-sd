@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ListOnlineClientInputPort implements ListOnlineClientUseCase {
+public class ListOnlineClientsInputPort implements ListOnlineClientUseCase {
 
     private final OnlineClientRepository onlineClientRepository;
 

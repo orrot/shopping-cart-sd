@@ -6,6 +6,7 @@ import com.orrot.store.common.jpa.BaseDomainMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.CollectionMappingStrategy;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -22,6 +23,12 @@ public abstract class CartDomainMapper implements BaseDomainMapper<Cart, CartJpa
 
     @Autowired
     private CartItemDomainMapper cartItemDomainMapper;
+
+    @Mapping(target = "onlineClientOwner.id", source = "onlineClientIdOwner")
+    public abstract CartJpaEntity mapToJpaEntity(Cart domain);
+
+    @InheritConfiguration
+    public abstract Cart mapToDomain(CartJpaEntity entity);
 
     @Mapping(target = "items", ignore = true)
     public abstract CartJpaEntity mapToExistingEntity(Cart domain, @MappingTarget CartJpaEntity entity);;

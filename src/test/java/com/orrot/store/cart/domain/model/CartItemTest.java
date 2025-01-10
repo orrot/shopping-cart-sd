@@ -48,17 +48,17 @@ class CartItemTest {
             CartItem cartItem = CartItem.of(1L, BigDecimal.valueOf(100), 2);
 
             assertThat(cartItem.getSubtotal())
-                    .as("Subtotal should be the price multiplied by the quantity")
+                    .as("Subtotal should be the currentPrice multiplied by the quantity")
                     .isEqualByComparingTo(BigDecimal.valueOf(200));
         }
 
         @Test
-        @DisplayName("Should return zero when the price is null")
+        @DisplayName("Should return zero when the currentPrice is null")
         void shouldReturnZeroWhenThePriceIsNull() {
             CartItem cartItem = CartItem.of(1L, null, 2);
 
             assertThat(cartItem.getSubtotal())
-                    .as("Subtotal should be the price multiplied by the quantity")
+                    .as("Subtotal should be the currentPrice multiplied by the quantity")
                     .isEqualByComparingTo(BigDecimal.ZERO);
         }
     }

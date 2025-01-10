@@ -4,6 +4,7 @@ import com.orrot.store.cart.adapter.output.CartRepository;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.service.CartService;
 import com.orrot.store.cart.domain.service.rules.CartRule;
+import com.orrot.store.common.StoreConstants;
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
 import com.orrot.store.common.exception.UnExistingEntityException;
@@ -12,6 +13,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -32,7 +34,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart createEmptyCart(@NotNull @Valid Cart cartToCreate) {
 
-        throwExceptionIfBrokenRule(cartToCreate, "The cart cannot be created");
+        throwExceptionIfBrokenRule(cartToCreate);
         return Either.<GeneralShoppingCartException, Cart>
                         right(cartToCreate)
                 .filterOrElse(cart -> cart.getId() == null,
@@ -44,7 +46,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void updateCart(@NotNull @Valid Cart cartToUpdate) {
-        throwExceptionIfBrokenRule(cartToUpdate, "The cart cannot be updated");
+        throwExceptionIfBrokenRule(cartToUpdate);
         cartRepository.update(cartToUpdate);
     }
 
@@ -53,10 +55,11 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findById(cartId);
     }
 
-    private void throwExceptionIfBrokenRule(Cart cartToCreate, String generalErrorMessage) {
-        var brokenRules = CartRule.checkAllSatisfied(cartToCreate, cartRules);
-        if (!brokenRules.isEmpty()) {
-            throw new BusinessRuleException(generalErrorMessage, brokenRules);
+    private void throwExceptionIfBrokenRule(Cart cartToCreate) {
+        var businessRuleResults = CartRule.checkAllSatisfied(cartToCreate, cartRules);
+        if (!businessRuleResults.areRulesSatisfied()) {
+            throw new BusinessRuleException(
+                    StringUtils.join(businessRuleResults.notifications(), StoreConstants.DEFAULT_MESSAGE_DELIMITER));
         }
     }
 }

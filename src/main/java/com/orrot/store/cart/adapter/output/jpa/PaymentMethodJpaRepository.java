@@ -1,8 +1,8 @@
 package com.orrot.store.cart.adapter.output.jpa;
 
 import com.orrot.store.cart.adapter.output.jpa.entity.PaymentMethodJpaEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.orrot.store.common.jpa.BaseJpaRepository;
 
-public interface PaymentMethodJpaRepository extends JpaRepository<PaymentMethodJpaEntity, String> {
+public interface PaymentMethodJpaRepository extends BaseJpaRepository<PaymentMethodJpaEntity, String> {
 
 }

@@ -1,22 +1,22 @@
 package com.orrot.store.common.specification;
 
 import java.util.Collection;
-import java.util.List;
 
 public abstract class AbstractSpecification<T> implements Specification<T> {
 
-    public abstract boolean isSatisfiedBy(T t);
+    public abstract BusinessRuleResult areSatisfiedBy(T t);
 
-    public String getUnsatisfiedReason() {
-        return "Specification '%s' not satisfied".formatted(this.getClass());
+    public AbstractSpecification<T> and(AbstractSpecification<T> specification) {
+        return new AndSpecification<>(this, specification);
     }
 
-    public static <T> List<BrokenRule> checkAllSatisfied(T object, Collection<? extends AbstractSpecification<T>> specifications) {
+    public static <T> BusinessRuleResult checkAllRules(T object, Collection<? extends AbstractSpecification<T>> specifications) {
+
         return specifications
                 .stream()
-                .filter(specification -> !specification.isSatisfiedBy(object))
-                .map(AbstractSpecification::getUnsatisfiedReason)
-                .map(BrokenRule::new)
-                .toList();
+                .map(rule -> (AbstractSpecification<T>) rule)
+                .reduce(AbstractSpecification::and)
+                .map(specification -> specification.areSatisfiedBy(object))
+                .orElse(BusinessRuleResult.EMPTY);
     }
 }

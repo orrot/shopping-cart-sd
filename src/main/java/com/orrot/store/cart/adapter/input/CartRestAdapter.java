@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,11 +38,13 @@ public class CartRestAdapter {
         return new IdentityId(createdCart.getId());
     }
 
-    @PatchMapping
+    @PatchMapping({"/{id}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Allows to update the cart payment method and user associated to the cart. No Other field can be modified")
-    public void updateCart(@RequestBody CartWrite cartJson) {
+    public void updateCart(
+            @PathVariable("id") Long cartId,
+            @RequestBody CartWrite cartJson) {
         updateCartInfoUseCase.updateCartInfo(
-                cartJson.id(), cartJson.paymentMethodCode(), cartJson.onlineClientIdToAssociate());
+                cartId, cartJson.paymentMethodCode(), cartJson.onlineClientIdOwner());
     }
 }

@@ -27,11 +27,11 @@ public class AddOrUpdateCartItemsInputPort implements AddOrUpdateCartItemsUseCas
                         "Product ID '%d' does not exist".formatted(productId)));
         switch (operation) {
             case ADD ->
-                    cart.addItems(product.getId(), product.getName(), product.getPrice(), quantity);
+                    cart.addItems(product.getId(), product.getName(), product.getCurrentPrice(), quantity);
             case REMOVE ->
                     cart.removeItems(product.getId(), quantity);
             case SET_FIXED_QUANTITY ->
-                    cart.replaceItemWithFixedQuantity(product.getId(), product.getName(), product.getPrice(), quantity);
+                    cart.replaceItemWithFixedQuantity(product.getId(), product.getName(), product.getCurrentPrice(), quantity);
         }
         cartService.updateCart(cart);
     }

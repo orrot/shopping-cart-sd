@@ -1,7 +1,7 @@
 package com.orrot.store.product.adapter.output.jpa;
 
+import com.orrot.store.common.jpa.BaseJpaRepository;
 import com.orrot.store.product.adapter.output.jpa.entity.ProductJpaEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductJpaRepository extends JpaRepository<ProductJpaEntity, Long> {
+public interface ProductJpaRepository extends BaseJpaRepository<ProductJpaEntity, Long> {
 }

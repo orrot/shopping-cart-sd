@@ -9,10 +9,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.With;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@With
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
@@ -27,4 +29,5 @@ public class OnlineClient {
 
     @Valid
     private Address address;
+
 }

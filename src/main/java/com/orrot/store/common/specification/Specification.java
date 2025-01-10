@@ -2,5 +2,5 @@ package com.orrot.store.common.specification;
 
 public interface Specification<T> {
 
-    boolean isSatisfiedBy(T t);
+    BusinessRuleResult areSatisfiedBy(T t);
 }

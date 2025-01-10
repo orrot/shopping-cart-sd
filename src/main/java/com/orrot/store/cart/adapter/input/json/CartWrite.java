@@ -10,9 +10,8 @@ import java.util.Optional;
 @Builder(toBuilder = true)
 @JsonPropertyOrder({"id", "paymentMethod", "cartUserOwner"})
 public record CartWrite(
-        Long id,
         IdentityCode paymentMethod,
-        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) Long onlineClientIdToAssociate) {
+        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) Long onlineClientIdOwner) {
 
 
     public String paymentMethodCode() {

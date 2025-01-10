@@ -26,7 +26,7 @@ public class CartSummaryRestAdapter {
     private final CartJsonViewMapper mapper;
     private final GetCartSummaryUseCase getCartSummaryUseCase;
 
-    @GetMapping("{cartId}")
+    @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Returns the cart by id, including all the items")
     public CartView findCartById(@PathVariable Long cartId) {

@@ -8,11 +8,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.With;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@With
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
@@ -24,6 +26,7 @@ public class Product {
     @NotNull(message = "Product name is required")
     private String name;
 
-    @Positive(message = "Unit price must be greater or equals to zero")
-    private BigDecimal price;
+    @Positive(message = "Unit currentPrice must be greater or equals to zero")
+    private BigDecimal currentPrice;
+
 }

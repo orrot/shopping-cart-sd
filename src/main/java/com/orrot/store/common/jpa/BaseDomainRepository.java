@@ -69,6 +69,13 @@ public abstract class BaseDomainRepository<D, E, I> {
     /**
      * Finds a domain by its ID. If the domain is not found, it returns an empty Optional.
      */
+    public boolean existsById(I id) {
+        return domainJpaRepository.existsById(id);
+    }
+
+    /**
+     * Finds a domain by its ID. If the domain is not found, it returns an empty Optional.
+     */
     public Page<D> findAll(Pageable pageable) {
         return domainJpaRepository.findAll(pageable)
                 .map(domainMapper::mapToDomain);

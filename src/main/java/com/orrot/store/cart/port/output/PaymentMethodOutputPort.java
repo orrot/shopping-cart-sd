@@ -4,5 +4,4 @@ import com.orrot.store.cart.domain.model.PaymentMethod;
 
 public interface PaymentMethodOutputPort {
 
-    boolean exists(PaymentMethod paymentMethod);
 }

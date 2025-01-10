@@ -7,9 +7,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface ProductOutputPort {
-    Optional<Product> findById(Long productId);
 
-    boolean existsById(Long productId);
+    Optional<Product> findById(Long productId);
 
     Page<Product> findAll(Pageable pageable);
 }

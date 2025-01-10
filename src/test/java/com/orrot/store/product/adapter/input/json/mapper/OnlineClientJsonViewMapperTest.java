@@ -26,7 +26,7 @@ class OnlineClientJsonViewMapperTest {
             var product = Product.builder()
                     .id(1L)
                     .name("Product Name")
-                    .price(BigDecimal.valueOf(1_500))
+                    .currentPrice(BigDecimal.valueOf(1_500))
                     .build();
 
             // When
@@ -35,7 +35,7 @@ class OnlineClientJsonViewMapperTest {
             // Then
             assertThat(productView)
                     .isNotNull()
-                    .extracting(ProductView::id, ProductView::name, ProductView::price)
+                    .extracting(ProductView::id, ProductView::name, ProductView::currentPrice)
                     .containsExactly(1L, "Product Name", BigDecimal.valueOf(1_500));
         }
     }

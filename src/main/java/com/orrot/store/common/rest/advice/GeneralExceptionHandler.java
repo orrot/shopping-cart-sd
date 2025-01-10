@@ -5,48 +5,37 @@ import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
 import com.orrot.store.common.exception.UnExistingEntityException;
 import com.orrot.store.common.exception.UnExistingRelationshipException;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
+@Hidden
 public class GeneralExceptionHandler {
 
     public static final String MESSAGE_DELIMITER = ", ";
 
-    @ExceptionHandler(value = {BusinessRuleException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public SimpleErrorMessage handleBusinessRulesException(BusinessRuleException exception) {
-        return Optional.of(exception)
-                .filter(BusinessRuleException::hasBrokenRules)
-                .map(BusinessRuleException::getBrokenRules)
-                .map(brokenRules -> new SimpleErrorMessage("%s. %s".formatted(
-                        exception.getMessage(), StringUtils.join(brokenRules, ", "))))
-                .orElse(new SimpleErrorMessage(exception.getMessage()));
-    }
-
-    @ExceptionHandler(value = {UnExistingEntityException.class})
+    @ExceptionHandler(UnExistingEntityException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public SimpleErrorMessage handleGeneralBadRequest(GeneralShoppingCartException exception) {
         return new SimpleErrorMessage(exception.getMessage());
     }
 
-    @ExceptionHandler(value = {UnExistingRelationshipException.class})
+    @ExceptionHandler({ UnExistingRelationshipException.class, BusinessRuleException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public SimpleErrorMessage handleNotFound(GeneralShoppingCartException exception) {
         return new SimpleErrorMessage(exception.getMessage());
     }
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
+    @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public SimpleErrorMessage handleConstraintViolation(ConstraintViolationException exception) {
         return exception.getConstraintViolations()

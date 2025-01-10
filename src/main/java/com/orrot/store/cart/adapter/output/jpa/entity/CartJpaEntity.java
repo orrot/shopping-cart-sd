@@ -62,7 +62,7 @@ public class CartJpaEntity extends BaseJpaEntity {
     private PaymentMethodJpaEntity paymentMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "online_client_owner", referencedColumnName = "id")
+    @JoinColumn(name = "online_client_id_owner", referencedColumnName = "id")
     private OnlineClientJpaEntity onlineClientOwner;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)

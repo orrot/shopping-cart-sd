@@ -31,7 +31,7 @@ public class CartItem {
     @NotEmpty(message = "Only a product with a name can be added to the cart")
     private String productName;
 
-    @Positive(message = "Unit price must be greater or equals to zero")
+    @Positive(message = "Unit currentPrice must be greater or equals to zero")
     private BigDecimal currentPrice;
 
     @Positive(message = "Quantity must be greater than zero")
