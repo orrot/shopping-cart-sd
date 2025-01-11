@@ -11,21 +11,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serial;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "payment_method")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 public class PaymentMethodJpaEntity extends BaseJpaEntity {
 
@@ -36,6 +38,7 @@ public class PaymentMethodJpaEntity extends BaseJpaEntity {
     @Column(name = "code")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
+    @EqualsAndHashCode.Include
     private String code;
 
     @Column(name = "name")
@@ -49,7 +52,6 @@ public class PaymentMethodJpaEntity extends BaseJpaEntity {
     private BigDecimal fixedFee;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "paymentMethod")
-    @EqualsAndHashCode.Exclude
-    private Set<CartJpaEntity> cart;
+    private Set<CartJpaEntity> carts;
 
 }

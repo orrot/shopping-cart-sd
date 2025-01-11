@@ -14,17 +14,22 @@ import java.util.Optional;
 @Slf4j
 public final class RegisteredUserRule extends CartRule {
 
-    public static final String ERROR_UNREGISTERED_USER = "The User must be registered so the cast could be assigned";
+    public static final String ERROR_UNREGISTERED_USER = "The User with id '%d' must be registered so the cart could be assigned";
 
     private final OnlineClientRepository onlineClientRepository;
 
     @Override
     public BusinessRuleResult areSatisfiedBy(Cart cart) {
+        return !cart.isOnlineClientAssigned() || isOnlineClientRegistered(cart) ?
+                BusinessRuleResult.SUCCESS :
+                BusinessRuleResult.withError(ERROR_UNREGISTERED_USER
+                        .formatted(cart.getOnlineClientOwnerId()));
+    }
+
+    private boolean isOnlineClientRegistered(Cart cart) {
         return Optional.ofNullable(cart)
-                .map(Cart::getOnlineClientIdOwner)
+                .map(Cart::getOnlineClientOwnerId)
                 .map(onlineClientRepository::existsById)
-                .filter(Boolean::booleanValue)
-                .map(BusinessRuleResult::new)
-                .orElse(new BusinessRuleResult(false, ERROR_UNREGISTERED_USER));
+                .orElse(false);
     }
 }

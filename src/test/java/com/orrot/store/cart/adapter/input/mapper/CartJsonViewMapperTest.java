@@ -30,7 +30,7 @@ class CartJsonViewMapperTest {
         @DisplayName("Should map JSON View to Carts domain")
         void shouldMapToDomain() {
             var cartWrite = CartWrite.builder()
-                    .onlineClientIdOwner(1L)
+                    .onlineClientOwnerId(1L)
                     .paymentMethod(new IdentityCode("VISA"))
                     .build();
 
@@ -38,7 +38,7 @@ class CartJsonViewMapperTest {
 
             assertThat(cart)
                     .isNotNull()
-                    .extracting(Cart::getId, Cart::getOnlineClientIdOwner)
+                    .extracting(Cart::getId, Cart::getOnlineClientOwnerId)
                     .containsExactly(1L, "user1");
 
             assertThat(cart.getPaymentMethod())
@@ -57,7 +57,7 @@ class CartJsonViewMapperTest {
         void shouldMapToDomain() {
            var cart = Cart.builder()
                     .id(1L)
-                    .onlineClientIdOwner(1L)
+                    .onlineClientOwnerId(1L)
                     .paymentMethod(PaymentMethod.builder()
                             .code("VISA")
                             .name("Visa Payment")
@@ -70,7 +70,7 @@ class CartJsonViewMapperTest {
 
             assertThat(cartView)
                     .isNotNull()
-                    .extracting(CartView::id, CartView::cartUserOwner)
+                    .extracting(CartView::id, CartView::onlineClientOwnerId)
                     .containsExactly(1L, "user1");
 
             assertThat(cartView.paymentMethod())

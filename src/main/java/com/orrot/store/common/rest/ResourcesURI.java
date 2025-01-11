@@ -18,6 +18,6 @@ public class ResourcesURI {
     public static final String PAYMENT_METHODS_URI = "/v1/payment-methods";
     public static final String PAYMENT_METHODS_TAG = "Payment Methods";
 
-    public static final String ONLINE_CLIENT_URI = "/v1/online-clients";
-    public static final String ONLINE_CLIENT_TAG = "Online Clients";
+    public static final String ONLINE_CLIENTS_URI = "/v1/online-clients";
+    public static final String ONLINE_CLIENTS_TAG = "Online Clients";
 }

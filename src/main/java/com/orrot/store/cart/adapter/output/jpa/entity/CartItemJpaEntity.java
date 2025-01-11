@@ -12,20 +12,21 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "cart_item")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
 @IdClass(CartItemJpaId.class)
 @NamedEntityGraph(name = "Cart.withItems",
@@ -45,6 +46,7 @@ public class CartItemJpaEntity implements Serializable {
 
     @Id
     @Column(name = "product_id")
+    @EqualsAndHashCode.Include
     private Long productId;
 
     @ManyToOne(fetch = FetchType.LAZY)

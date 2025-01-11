@@ -15,18 +15,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serial;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "online_client")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 public class OnlineClientJpaEntity extends BaseJpaEntity {
 
@@ -37,18 +40,16 @@ public class OnlineClientJpaEntity extends BaseJpaEntity {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "name")
-    @ToString.Include
     private String name;
 
     @Embedded
     private AddressJpaEntity address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "onlineClientOwner")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Set<CartJpaEntity> cart;
 
 }

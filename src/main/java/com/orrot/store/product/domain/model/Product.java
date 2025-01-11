@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 @ToString(onlyExplicitlyIncluded = true)
 public class Product {
 
+    @ToString.Include
     private Long id;
 
     @NotNull(message = "Product name is required")
@@ -29,4 +30,5 @@ public class Product {
     @Positive(message = "Unit currentPrice must be greater or equals to zero")
     private BigDecimal currentPrice;
 
+    private String description;
 }

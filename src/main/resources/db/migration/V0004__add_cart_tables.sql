@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS cart (
     id BIGINT NOT NULL AUTO_INCREMENT,
     payment_method_code VARCHAR(50) NOT NULL,
-    online_client_id_owner BIGINT DEFAULT NULL,
+    online_client_owner_id BIGINT DEFAULT NULL,
     created_by VARCHAR(100) NOT NULL,
     created_date DATETIME NOT NULL,
     last_modified_by VARCHAR(100) NOT NULL,
     last_modified_date DATETIME NOT NULL,
     CONSTRAINT fk_cart_payment_method FOREIGN KEY (payment_method_code) REFERENCES payment_method(code),
-    CONSTRAINT fk_cart_online_client FOREIGN KEY (online_client_id_owner) REFERENCES online_client(id),
+    CONSTRAINT fk_cart_online_client FOREIGN KEY (online_client_owner_id) REFERENCES online_client(id),
 	PRIMARY KEY (id));
 
 CREATE TABLE IF NOT EXISTS cart_item (

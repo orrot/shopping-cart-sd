@@ -17,6 +17,6 @@ public abstract class AbstractSpecification<T> implements Specification<T> {
                 .map(rule -> (AbstractSpecification<T>) rule)
                 .reduce(AbstractSpecification::and)
                 .map(specification -> specification.areSatisfiedBy(object))
-                .orElse(BusinessRuleResult.EMPTY);
+                .orElse(BusinessRuleResult.SUCCESS);
     }
 }

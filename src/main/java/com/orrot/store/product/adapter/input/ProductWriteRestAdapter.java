@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductWriteRestAdapter {
 
     private final ProductJsonViewMapper mapper;
-
     private final CreateProductUseCase createProductUseCase;
     private final UpdateProductUseCase updateProductUseCase;
 

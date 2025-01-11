@@ -3,14 +3,16 @@ package com.orrot.store.cart.port.input;
 import com.orrot.store.cart.adapter.input.json.CartItemPatch;
 import com.orrot.store.cart.domain.service.CartService;
 import com.orrot.store.cart.port.usecase.AddOrUpdateCartItemsUseCase;
-import com.orrot.store.common.exception.UnExistingEntityException;
+import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.exception.UnExistingRelationshipException;
 import com.orrot.store.product.domain.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class AddOrUpdateCartItemsInputPort implements AddOrUpdateCartItemsUseCase {
 
     private final CartService cartService;
@@ -20,7 +22,7 @@ public class AddOrUpdateCartItemsInputPort implements AddOrUpdateCartItemsUseCas
     public void addOrUpdateCartItem(CartItemPatch.CartOperation operation, Long cartId, Long productId, int quantity) {
 
         var cart = cartService.findById(cartId)
-                .orElseThrow(() -> new UnExistingEntityException(
+                .orElseThrow(() -> new UnExistingResourceException(
                         "Cart ID '%d' of the item to be added must exist", cartId));
         var product = productService.findById(productId)
                 .orElseThrow(() -> new UnExistingRelationshipException(

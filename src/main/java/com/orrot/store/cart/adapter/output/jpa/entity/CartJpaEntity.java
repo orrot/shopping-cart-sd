@@ -17,9 +17,10 @@ import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serial;
@@ -27,12 +28,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "cart")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @NamedEntityGraph(name = "Cart.fullInfo",
         attributeNodes = {
@@ -55,6 +57,7 @@ public class CartJpaEntity extends BaseJpaEntity {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -62,12 +65,11 @@ public class CartJpaEntity extends BaseJpaEntity {
     private PaymentMethodJpaEntity paymentMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "online_client_id_owner", referencedColumnName = "id")
+    @JoinColumn(name = "online_client_owner_id", referencedColumnName = "id")
     private OnlineClientJpaEntity onlineClientOwner;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    @EqualsAndHashCode.Exclude
     private List<CartItemJpaEntity> items = new ArrayList<>();
 
     public void setItems(Collection<CartItemJpaEntity> items) {

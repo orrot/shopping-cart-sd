@@ -2,7 +2,7 @@ package com.orrot.store.common.jpa;
 
 import com.orrot.store.common.exception.DomainSavingException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
-import com.orrot.store.common.exception.UnExistingEntityException;
+import com.orrot.store.common.exception.UnExistingResourceException;
 import io.vavr.control.Either;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +49,7 @@ public abstract class BaseDomainRepository<D, E, I> {
                         optional -> new DomainSavingException("The ID '%d' must not be null"))
                 .map(domainJpaRepository::findById)
                 .filterOrElse(Optional::isPresent,
-                        optional -> new UnExistingEntityException("The ID '%d' does not exist", id))
+                        optional -> new UnExistingResourceException("The ID '%d' does not exist", id))
                 .map(Optional::get)
                 .map(existingEntity -> domainMapper
                         .mapToExistingEntity(domainToUpdate, existingEntity))

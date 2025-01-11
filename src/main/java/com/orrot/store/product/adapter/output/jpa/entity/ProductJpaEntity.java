@@ -14,19 +14,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serial;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "product")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 public class ProductJpaEntity extends BaseJpaEntity {
 
@@ -37,6 +40,7 @@ public class ProductJpaEntity extends BaseJpaEntity {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "name")
@@ -51,7 +55,6 @@ public class ProductJpaEntity extends BaseJpaEntity {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    @EqualsAndHashCode.Exclude
     private Set<CartItemJpaEntity> cartItems;
 
 }

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(ResourcesURI.ONLINE_CLIENT_URI)
-@Tag(name = ResourcesURI.ONLINE_CLIENT_TAG)
+@RequestMapping(ResourcesURI.ONLINE_CLIENTS_URI)
+@Tag(name = ResourcesURI.ONLINE_CLIENTS_TAG)
 @RequiredArgsConstructor
 public class OnlineClientWriteRestAdapter {
 

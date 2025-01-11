@@ -8,10 +8,10 @@ import lombok.Builder;
 import java.util.Optional;
 
 @Builder(toBuilder = true)
-@JsonPropertyOrder({"id", "paymentMethod", "cartUserOwner"})
+@JsonPropertyOrder({"id", "paymentMethod", "onlineClientOwnerId"})
 public record CartWrite(
         IdentityCode paymentMethod,
-        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) Long onlineClientIdOwner) {
+        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) Long onlineClientOwnerId) {
 
 
     public String paymentMethodCode() {

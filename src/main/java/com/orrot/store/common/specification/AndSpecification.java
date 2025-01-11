@@ -13,9 +13,11 @@ public final class AndSpecification<T> extends AbstractSpecification<T> {
     }
 
     public BusinessRuleResult areSatisfiedBy(final T t) {
-        // TODO Improve this code
+
+        var resultSpec1 = spec1.areSatisfiedBy(t);
+        var resultSpec2 = spec2.areSatisfiedBy(t);
         return new BusinessRuleResult(
-                spec1.areSatisfiedBy(t).areRulesSatisfied() && spec2.areSatisfiedBy(t).areRulesSatisfied(),
-                ListUtils.union(spec1.areSatisfiedBy(t).notifications(), spec2.areSatisfiedBy(t).notifications()));
+                resultSpec1.isBusinessFlowCorrect() && resultSpec2.isBusinessFlowCorrect(),
+                ListUtils.union(resultSpec1.notifications(), resultSpec2.notifications()));
     }
 }

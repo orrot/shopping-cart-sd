@@ -1,7 +1,9 @@
 package com.orrot.store.onlineuser.domain.model;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
+@Builder(toBuilder = true)
 public record Address(
         @NotNull(message = "Line 1 of the address is mandatory") String line1,
         String line2,

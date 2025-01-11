@@ -45,6 +45,6 @@ public class CartRestAdapter {
             @PathVariable("id") Long cartId,
             @RequestBody CartWrite cartJson) {
         updateCartInfoUseCase.updateCartInfo(
-                cartId, cartJson.paymentMethodCode(), cartJson.onlineClientIdOwner());
+                cartId, cartJson.paymentMethodCode(), cartJson.onlineClientOwnerId());
     }
 }

@@ -29,9 +29,9 @@ public class CartSummaryRestAdapter {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Returns the cart by id, including all the items")
-    public CartView findCartById(@PathVariable Long cartId) {
+    public CartView findCartById(@PathVariable("id") Long id) {
         // Query
-        return Optional.ofNullable(cartId)
+        return Optional.ofNullable(id)
                 .map(getCartSummaryUseCase::getCartById)
                 .map(mapper::mapToView)
                 .orElseThrow();

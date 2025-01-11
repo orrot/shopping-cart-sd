@@ -50,7 +50,7 @@ public class Cart implements Serializable {
 
     @Getter
     @ToString.Include
-    private Long onlineClientIdOwner;
+    private Long onlineClientOwnerId;
 
     private final SequencedMap<Long, @Valid CartItem> cartItemsByProductId = new LinkedHashMap<>();
 
@@ -58,9 +58,21 @@ public class Cart implements Serializable {
         return List.copyOf(cartItemsByProductId.sequencedValues());
     }
 
+    // TODO Unit tests
+    public String getPaymentMethodCode() {
+        return Optional.ofNullable(paymentMethod)
+                .map(PaymentMethod::getCode)
+                .orElse(null);
+    }
+
+    // TODO Unit test
+    public boolean isOnlineClientAssigned() {
+        return onlineClientOwnerId != null;
+    }
+
     // TODO Unit test
     public void associateCartToOwner(Long onlineClientIdToAssociate) {
-        this.onlineClientIdOwner = onlineClientIdToAssociate;
+        this.onlineClientOwnerId = onlineClientIdToAssociate;
     }
 
     // TODO Unit test

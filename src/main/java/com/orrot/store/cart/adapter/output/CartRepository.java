@@ -8,9 +8,9 @@ import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.common.exception.DomainSavingException;
 import com.orrot.store.common.jpa.BaseDomainRepository;
 import io.vavr.control.Either;
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.function.Function;

@@ -3,7 +3,7 @@ package com.orrot.store.common.rest.advice;
 
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
-import com.orrot.store.common.exception.UnExistingEntityException;
+import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.exception.UnExistingRelationshipException;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.ConstraintViolation;
@@ -23,7 +23,7 @@ public class GeneralExceptionHandler {
 
     public static final String MESSAGE_DELIMITER = ", ";
 
-    @ExceptionHandler(UnExistingEntityException.class)
+    @ExceptionHandler(UnExistingResourceException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public SimpleErrorMessage handleGeneralBadRequest(GeneralShoppingCartException exception) {
         return new SimpleErrorMessage(exception.getMessage());

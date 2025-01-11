@@ -1,10 +1,12 @@
 package com.orrot.store;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
+@Slf4j
 public abstract class AbstractContainerBaseTest {
 
     public static final DockerImageName IMG_MY_SQL = DockerImageName.parse("mysql:8.4.3");
@@ -22,8 +24,8 @@ public abstract class AbstractContainerBaseTest {
 
     @DynamicPropertySource
     static void additionalProperties(DynamicPropertyRegistry registry) {
-        System.out.println("MySQL container is starting");
-        System.out.println("--------------------------------------------------" + MY_SQL_CONTAINER.getJdbcUrl());
+        log.info("MySQL container is starting");
+        log.info("MySQL JDBC URL: {}", MY_SQL_CONTAINER.getJdbcUrl());
         registry.add("spring.datasource.url", MY_SQL_CONTAINER::getJdbcUrl);
     }
 }
