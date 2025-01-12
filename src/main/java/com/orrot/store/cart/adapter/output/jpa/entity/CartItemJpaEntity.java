@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Entity(name = "cart_item")
+@Entity(name = "CartItem")
+@Table(name = "cart_item")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)

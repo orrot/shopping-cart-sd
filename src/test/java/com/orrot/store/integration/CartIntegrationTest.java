@@ -7,12 +7,9 @@ import com.orrot.store.cart.adapter.input.json.CartItemView;
 import com.orrot.store.cart.adapter.input.json.CartView;
 import com.orrot.store.common.rest.ResourcesURI;
 import com.orrot.store.integration.data.CartExamples;
-import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestClassOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @DisplayName("During General Cart Information Creation and Updates")
 public class CartIntegrationTest extends AbstractContainerBaseTest {
 
@@ -45,7 +41,6 @@ public class CartIntegrationTest extends AbstractContainerBaseTest {
 
     @Nested
     @DisplayName("When creating an empty cart")
-    @Order(1)
     @Sql(value = "/sql/paymentmethod/default_list.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
     @Sql(value = { "/sql/cart/clean.sql", "/sql/paymentmethod/clean.sql" }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
     class WhenCreatingEmptyCart {
@@ -73,11 +68,11 @@ public class CartIntegrationTest extends AbstractContainerBaseTest {
 
     @Nested
     @DisplayName("When updating a Cart")
-    @Order(2)
-    @Sql(value = { "/sql/paymentmethod/default_list.sql", "/sql/onlineclient/default_list.sql", "/sql/product/default_list.sql", "/sql/cart/default_list.sql" },
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+    @Sql(value = { "/sql/paymentmethod/default_list.sql", "/sql/onlineclient/default_list.sql", "/sql/product/default_list.sql" },
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS) // Prerequisites
+    @Sql(value = "/sql/cart/default_list.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS) // Data
     @Sql(value = { "/sql/cart/clean.sql", "/sql/paymentmethod/clean.sql", "/sql/onlineclient/clean.sql", "/sql/product/clean.sql" },
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS) // Clean
     class WhenUpdatingCart {
 
         @Test
@@ -123,10 +118,11 @@ public class CartIntegrationTest extends AbstractContainerBaseTest {
 
     @Nested
     @DisplayName("When getting the cart summary by id")
-    @Sql(value = { "/sql/paymentmethod/default_list.sql", "/sql/onlineclient/default_list.sql", "/sql/product/default_list.sql", "/sql/cart/default_list_with_items.sql" },
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+    @Sql(value = { "/sql/paymentmethod/default_list.sql", "/sql/onlineclient/default_list.sql", "/sql/product/default_list.sql" },
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS) // Prerequisites
+    @Sql(value = "/sql/cart/default_list_with_items.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS) // Data
     @Sql(value = { "/sql/cart/clean.sql", "/sql/paymentmethod/clean.sql", "/sql/onlineclient/clean.sql", "/sql/product/clean.sql" },
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS) // Clean
     class WhenGettingCartById {
 
         @Test

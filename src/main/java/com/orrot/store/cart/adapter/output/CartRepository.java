@@ -37,11 +37,7 @@ public class CartRepository extends BaseDomainRepository<Cart, CartJpaEntity, Lo
     }
 
     @Override
-    public long countById(Long cartId) {
-        // Consider use Specification pattern if more conditions are required
-        return cartJpaRepository.count(
-                Example.of(CartJpaEntity.builder()
-                        .id(cartId)
-                        .build()));
+    public long findSumOfItems(Long cartId) {
+        return cartJpaRepository.findQuantitySumByCartId(cartId);
     }
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity(name = "payment_method")
+@Entity(name = "PaymentMethod")
+@Table(name = "payment_method")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)

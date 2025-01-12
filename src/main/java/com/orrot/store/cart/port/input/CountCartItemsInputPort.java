@@ -15,7 +15,7 @@ public class CountCartItemsInputPort implements CountCartItemsUseCase {
 
     @Override
     public long countCartItems(Long cartId) {
-        return cartRepository.countById(cartId);
+        return cartRepository.findSumOfItems(cartId);
     }
 
 }

@@ -5,5 +5,4 @@ import com.orrot.store.cart.adapter.output.jpa.entity.CartItemJpaId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartItemJpaRepository extends JpaRepository<CartItemJpaEntity, CartItemJpaId> {
-
 }

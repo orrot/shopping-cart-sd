@@ -15,7 +15,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,7 @@ public abstract class CartDomainMapper implements BaseDomainMapper<Cart, CartJpa
     @Mapping(target = "items", ignore = true)
     @Mapping(target = "paymentMethod", expression = "java(paymentMethodDomainMapper.mapToJpaEntity(domain.getPaymentMethod()))")
     @Mapping(target = "onlineClientOwner", source = "onlineClientOwnerId", qualifiedByName = "mapToOnlineClientOwner")
-    public abstract CartJpaEntity mapToExistingEntity(Cart domain, @MappingTarget CartJpaEntity entity);;
+    public abstract CartJpaEntity mapToExistingEntity(Cart domain, @MappingTarget CartJpaEntity entity);
 
     @Named("mapToOnlineClientOwner")
     OnlineClientJpaEntity mapToOnlineClientOwner(Long onlineClientOwnerId) {

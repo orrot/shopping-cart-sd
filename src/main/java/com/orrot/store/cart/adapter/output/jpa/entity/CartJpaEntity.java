@@ -15,6 +15,7 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -30,7 +31,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity(name = "cart")
+@Entity(name = "Cart")
+@Table(name = "cart")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)

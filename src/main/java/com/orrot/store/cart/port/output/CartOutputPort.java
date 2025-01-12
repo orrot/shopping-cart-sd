@@ -12,6 +12,5 @@ public interface CartOutputPort {
 
     Optional<Cart> findById(Long cartId);
 
-
-    long countById(Long cartId);
+    long findSumOfItems(Long cartId);
 }

@@ -120,7 +120,7 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
             var result = mockMvc.perform(get("/v1/products")
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.totalElements").value(2))
+                    .andExpect(jsonPath("$.totalElements").value(3))
                     .andReturn();
 
             // Assert

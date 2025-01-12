@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity(name = "online_client")
+@Entity(name = "OnlineClient")
+@Table(name = "online_client")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
