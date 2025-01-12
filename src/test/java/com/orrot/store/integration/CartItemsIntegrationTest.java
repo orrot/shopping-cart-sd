@@ -44,7 +44,6 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
     private static final Long CART_ID_TO_COUNT_ITEMS = -3L;
     private static final Gson gson = new Gson();
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -67,7 +66,7 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
                     .andExpect(status().isNoContent());
 
             // Assert
-            var response = mockMvc.perform(get("/v1/carts/{id}", -3)
+            var response = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andReturn()
                     .getResponse();
@@ -94,7 +93,7 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
                     .andExpect(status().isNoContent());
 
             // Assert
-            var response = mockMvc.perform(get("/v1/carts/{id}", -3)
+            var response = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andReturn()
                     .getResponse();
@@ -121,7 +120,7 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
                     .andExpect(status().isNoContent());
 
             // Assert
-            var response = mockMvc.perform(get("/v1/carts/{id}", -3)
+            var response = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andReturn()
                     .getResponse();
