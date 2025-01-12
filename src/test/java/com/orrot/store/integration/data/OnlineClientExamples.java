@@ -38,8 +38,7 @@ public class OnlineClientExamples {
                                 .line1(onlineClientWrite.address().line1()  + UPDATED_STRING)
                                 .line2(onlineClientWrite.address().line2() + UPDATED_STRING)
                                 .zipCode(onlineClientWrite.address().zipCode() + UPDATED_STRING)
-                                .build()
-                )
+                                .build())
                 .build();
     }
 }

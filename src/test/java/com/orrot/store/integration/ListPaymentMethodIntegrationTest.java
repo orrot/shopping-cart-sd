@@ -29,9 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
-@DisplayName("During Payment Method CRUD Flows")
-@Sql(value = "/sql/paymentmethod/clean.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@DisplayName("During Payment Method Listing")
 public class ListPaymentMethodIntegrationTest extends AbstractContainerBaseTest {
 
     private static final Gson gson = new Gson();
@@ -45,7 +43,8 @@ public class ListPaymentMethodIntegrationTest extends AbstractContainerBaseTest 
 
         @Test
         @DisplayName("Should return OK status and the page of payment methods")
-        @Sql(value = "/sql/paymentmethod/default.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "/sql/paymentmethod/default_list.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "/sql/paymentmethod/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
         void shouldReturnOkAndThePageOfPaymentMethods() throws Exception {
 
             // When / Then

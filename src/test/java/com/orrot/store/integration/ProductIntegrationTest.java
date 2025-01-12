@@ -6,19 +6,16 @@ import com.jayway.jsonpath.JsonPath;
 import com.orrot.store.AbstractContainerBaseTest;
 import com.orrot.store.integration.data.ProductExamples;
 import com.orrot.store.product.adapter.input.json.ProductView;
-import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestClassOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlMergeMode;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -35,10 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
-@TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @DisplayName("During Product CRUD Flows")
-@Sql(value = "/sql/product/clean.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 public class ProductIntegrationTest extends AbstractContainerBaseTest {
 
     private static final Gson gson = new Gson();
@@ -114,12 +108,12 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
 
     @Nested
     @DisplayName("When listing a product")
-    @Order(3)
     class WhenListingProduct {
 
         @Test
         @DisplayName("Should return OK status and the page of products")
-        @Sql(value = "/sql/product/default.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "/sql/product/default_list.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "/sql/product/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
         void shouldReturnOkAndThePageOfProducts() throws Exception {
 
             // When / Then

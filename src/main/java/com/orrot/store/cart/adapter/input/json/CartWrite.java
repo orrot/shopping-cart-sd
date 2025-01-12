@@ -11,7 +11,8 @@ import java.util.Optional;
 @JsonPropertyOrder({"id", "paymentMethod", "onlineClientOwnerId"})
 public record CartWrite(
         IdentityCode paymentMethod,
-        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED) Long onlineClientOwnerId) {
+        @Schema(nullable = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+        Long onlineClientOwnerId) {
 
 
     public String paymentMethodCode() {

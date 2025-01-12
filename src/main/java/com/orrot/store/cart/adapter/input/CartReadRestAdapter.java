@@ -21,7 +21,7 @@ import java.util.Optional;
 @Tag(name = ResourcesURI.CARTS_TAG)
 @RequiredArgsConstructor
 // TODO Document rest API
-public class CartSummaryRestAdapter {
+public class CartReadRestAdapter {
 
     private final CartJsonViewMapper mapper;
     private final GetCartSummaryUseCase getCartSummaryUseCase;

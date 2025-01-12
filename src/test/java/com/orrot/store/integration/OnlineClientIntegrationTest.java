@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlMergeMode;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -35,10 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
 @DisplayName("During Online Client CRUD Flows")
-@Sql(value = "/sql/onlineclient/clean.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 public class OnlineClientIntegrationTest extends AbstractContainerBaseTest {
 
     private static final Gson gson = new Gson();
@@ -114,12 +111,12 @@ public class OnlineClientIntegrationTest extends AbstractContainerBaseTest {
 
     @Nested
     @DisplayName("When listing online clients")
-    @Order(3)
     class WhenListingOnlineClients {
 
         @Test
         @DisplayName("Should return OK status and a page of online clients")
-        @Sql(value = "/sql/onlineclient/default.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "/sql/onlineclient/default_list.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "/sql/onlineclient/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
         void shouldReturnOkAndThePageOfOnlineClients() throws Exception {
 
             // When / Then
