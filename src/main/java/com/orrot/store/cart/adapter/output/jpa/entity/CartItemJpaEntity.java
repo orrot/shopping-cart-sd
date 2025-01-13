@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.With;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -31,6 +32,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@With
 @ToString(onlyExplicitlyIncluded = true)
 @IdClass(CartItemJpaId.class)
 @NamedEntityGraph(name = "Cart.withItems",

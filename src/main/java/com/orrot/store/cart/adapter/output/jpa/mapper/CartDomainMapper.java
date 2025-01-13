@@ -15,6 +15,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
@@ -47,9 +48,9 @@ public interface CartDomainMapper extends BaseDomainMapper<Cart, CartJpaEntity> 
         if (domain.getOnlineClientOwnerId() == null) {
             entity.setOnlineClientOwner(null);
         }
-        // Set the parent allows to handle ALL operations over children (Add, Update, Remove)
-        entity.getItems()
-                .forEach(item -> item.setCart(entity));
+        // Set parent reference so JPA could handle all operations over children
+        var items = new ArrayList<>(entity.getItems());
+        items.forEach(item -> item.setCart(entity));
     }
 
     @AfterMapping
