@@ -1,5 +1,6 @@
 package com.orrot.store.cart.domain.model;
 
+import com.orrot.store.product.domain.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -59,9 +60,9 @@ class CartTest {
                     .paymentMethod(CASH_PAYMENT_METHOD)
                     .build();
 
-            cart.addItems(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
-            cart.addItems(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
-            cart.addItems(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
+            cart.addItems(createProductWithId(1L, "Banana", new BigDecimal("2000")), 2); // 4.000
+            cart.addItems(createProductWithId(2L, "Orange", new BigDecimal("1000")), 3); // 3.000
+            cart.addItems(createProductWithId(3L, "Strawberry", new BigDecimal("2000")), 3); // 6.000
 
             // When
             var total = cart.getTotal();
@@ -102,9 +103,9 @@ class CartTest {
                     .paymentMethod(PAYMENT_METHOD_NULL_VALUES)
                     .build();
 
-            cart.addItems(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
-            cart.addItems(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
-            cart.addItems(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
+            cart.addItems(createProductWithId(1L, "Banana", new BigDecimal("2000")), 2); // 4.000
+            cart.addItems(createProductWithId(2L, "Orange", new BigDecimal("1000")), 3); // 3.000
+            cart.addItems(createProductWithId(3L, "Strawberry", new BigDecimal("2000")), 3); // 6.000
 
             // When
             var totalWithFee = cart.getTotalWithFee();
@@ -125,9 +126,9 @@ class CartTest {
                     .paymentMethod(VISA_PAYMENT_METHOD) // fee is 2% or 0.02
                     .build();
 
-            cart.addItems(1L, "Banana", new BigDecimal("2000"), 2); // 4.000
-            cart.addItems(2L, "Orange", new BigDecimal("1000"), 3); // 3.000
-            cart.addItems(3L, "Strawberry", new BigDecimal("2000"), 3); // 6.000
+            cart.addItems(createProductWithId(1L, "Banana", new BigDecimal("2000")), 2); // 4.000
+            cart.addItems(createProductWithId(2L, "Orange", new BigDecimal("1000")), 3); // 3.000
+            cart.addItems(createProductWithId(3L, "Strawberry", new BigDecimal("2000")), 3); // 6.000
 
             // When
             var totalWithFee = cart.getTotalWithFee();
@@ -137,5 +138,9 @@ class CartTest {
                     .as("Total should be the sum of the items plus the fee")
                     .isEqualByComparingTo(new BigDecimal(14_060));
         }
+    }
+
+    public static Product createProductWithId(Long id, String name, BigDecimal currentPrice) {
+        return Product.createValid(id, name, currentPrice);
     }
 }

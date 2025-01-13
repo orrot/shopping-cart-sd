@@ -55,7 +55,7 @@ class ProductWriteRestAdapterTest {
 
         @Test
         @DisplayName("Should return created status and return the ID of the Generated Product")
-        void shouldReturnCreatedStatusAndReturnIDOfTheGeneratedProduct() throws Exception {
+        void shouldReturnCreatedStatusAndReturnIDCreateValidTheGeneratedProduct() throws Exception {
             var product = MockerFactory.createDummy(Product.class);
             given(createProductUseCase.createProduct(argThat(prod -> prod.getId() == null)))
                     .willReturn(product.withId(40L));

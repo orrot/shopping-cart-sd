@@ -1,5 +1,6 @@
 package com.orrot.store.cart.domain.model;
 
+import com.orrot.store.product.domain.model.Product;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -58,44 +59,40 @@ public class Cart implements Serializable {
         return List.copyOf(cartItemsByProductId.sequencedValues());
     }
 
-    // TODO Unit tests
     public String getPaymentMethodCode() {
         return Optional.ofNullable(paymentMethod)
                 .map(PaymentMethod::getCode)
                 .orElse(null);
     }
 
-    // TODO Unit test
     public boolean isOnlineClientAssigned() {
         return onlineClientOwnerId != null;
     }
 
-    // TODO Unit test
     public void associateCartToOwner(Long onlineClientIdToAssociate) {
         this.onlineClientOwnerId = onlineClientIdToAssociate;
     }
 
-    // TODO Unit test
     public void updatePaymentMethod(String paymentMethodCode) {
         this.paymentMethod = PaymentMethod.builder()
                 .code(paymentMethodCode)
                 .build();
     }
 
-    public void addItems(Long productIdToAdd, String productName, BigDecimal price, int quantity) {
+    public void addItems(Product productToAdd, int quantity) {
 
-        var newCartItem = CartItem.of(productIdToAdd, productName, price, quantity);
-        cartItemsByProductId.compute(productIdToAdd,
+        var newCartItem = CartItem.of(productToAdd, quantity);
+        cartItemsByProductId.compute(productToAdd.getId(),
                 (productId, existingCartItem) ->
                         Optional.ofNullable(existingCartItem)
                                 .map(v -> v.toBuilder().quantity(v.getQuantity() + quantity).build())
                                 .orElse(newCartItem));
     }
 
-    public void removeItems(Long productIdToRemove, int quantity) {
-        var itemToRemove = CartItem.of(productIdToRemove, quantity);
+    public void removeItems(Product productToRemove, int quantity) {
+        var itemToRemove = CartItem.of(productToRemove, quantity);
 
-        cartItemsByProductId.computeIfPresent(productIdToRemove,
+        cartItemsByProductId.computeIfPresent(productToRemove.getId(),
                 (productId, existingCartItem) -> {
                     var newQuantity = existingCartItem.getQuantity() - itemToRemove.getQuantity();
                     if (newQuantity <= 0) {
@@ -105,10 +102,10 @@ public class Cart implements Serializable {
                 });
     }
 
-    public void replaceItemWithFixedQuantity(Long productId, String productName, BigDecimal price, int quantity) {
+    public void replaceItemWithFixedQuantity(Product productToSet, int quantity) {
 
-        var itemToReplace = CartItem.of(productId, productName, price, quantity);
-        cartItemsByProductId.put(productId, itemToReplace);
+        var itemToReplace = CartItem.of(productToSet, quantity);
+        cartItemsByProductId.put(productToSet.getId(), itemToReplace);
     }
 
     public BigDecimal getTotal() {

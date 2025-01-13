@@ -1,6 +1,7 @@
 package com.orrot.store.cart.domain.model;
 
 import com.orrot.store.cart.domain.exception.QuantityLessThanZeroException;
+import com.orrot.store.product.domain.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,8 +34,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, "ONE", DEFAULT_PRICE, 3);
-            cart.addItems(PRODUCT_ID_TWO, "TWO", DEFAULT_PRICE, 2);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 3);
+            cart.addItems(createProductWithId(PRODUCT_ID_TWO), 2);
 
             // Then
             assertThat(cart.getItems())
@@ -52,8 +53,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 3);
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 2);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 3);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 2);
 
             // Then
             assertThat(cart.getItems())
@@ -71,7 +72,7 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            assertThatThrownBy(() -> cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, -1))
+            assertThatThrownBy(() -> cart.addItems(createProductWithId(PRODUCT_ID_ONE), -1))
                     .as("Should throw an exception when quantity is less than zero")
                     .isInstanceOf(QuantityLessThanZeroException.class)
                     .hasMessage("Quantity must be greater than zero");
@@ -89,8 +90,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 5);
-            cart.removeItems(PRODUCT_ID_TWO, 3);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 5);
+            cart.removeItems(createProductWithId(PRODUCT_ID_TWO), 3);
             // Then
             assertThat(cart.getItems())
                     .as("Cart should contain ONLY '2' of Product 'TWO'")
@@ -106,8 +107,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 5);
-            cart.removeItems(PRODUCT_ID_ONE, 3);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 5);
+            cart.removeItems(createProductWithId(PRODUCT_ID_ONE), 3);
             // Then
             assertThat(cart.getItems())
                     .as("Cart should contain ONLY '2' of Product 'TWO'")
@@ -123,8 +124,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 5);
-            cart.removeItems(PRODUCT_ID_ONE, 6);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 5);
+            cart.removeItems(createProductWithId(PRODUCT_ID_ONE), 6);
             // Then
             assertThat(cart.getItems())
                     .as("Cart should NOT contain Products")
@@ -138,8 +139,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 5);
-            cart.removeItems(PRODUCT_ID_ONE, 5);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 5);
+            cart.removeItems(createProductWithId(PRODUCT_ID_ONE), 5);
             // Then
             assertThat(cart.getItems())
                     .as("Cart should NOT contain Products")
@@ -155,7 +156,7 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            assertThatThrownBy(() -> cart.removeItems(PRODUCT_ID_ONE, -1))
+            assertThatThrownBy(() -> cart.removeItems(createProductWithId(PRODUCT_ID_ONE), -1))
                     .as("Should throw an exception when quantity is less than zero")
                     .isInstanceOf(QuantityLessThanZeroException.class)
                     .hasMessage("Quantity must be greater than zero");
@@ -181,8 +182,8 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.addItems(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, 1);
-            cart.replaceItemWithFixedQuantity(PRODUCT_ID_ONE,DEFAULT_PRODUCT_NAME, DEFAULT_PRICE,6);
+            cart.addItems(createProductWithId(PRODUCT_ID_ONE), 1);
+            cart.replaceItemWithFixedQuantity(createProductWithId(PRODUCT_ID_ONE), 6);
 
             // Then
             assertThat(cart.getItems())
@@ -199,7 +200,7 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            cart.replaceItemWithFixedQuantity(PRODUCT_ID_ONE,DEFAULT_PRODUCT_NAME, DEFAULT_PRICE,6);
+            cart.replaceItemWithFixedQuantity(createProductWithId(PRODUCT_ID_ONE), 6);
 
             // Then
             assertThat(cart.getItems())
@@ -217,10 +218,14 @@ class CartItemOperationsTest {
             var cart = createEmptyCart();
 
             // When
-            assertThatThrownBy(() -> cart.replaceItemWithFixedQuantity(PRODUCT_ID_ONE, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE, -1))
+            assertThatThrownBy(() -> cart.replaceItemWithFixedQuantity(createProductWithId(PRODUCT_ID_ONE), -1))
                     .as("Should throw an exception when quantity is less than zero")
                     .isInstanceOf(QuantityLessThanZeroException.class)
                     .hasMessage("Quantity must be greater than zero");
         }
+    }
+
+    public static Product createProductWithId(Long id) {
+        return Product.createValid(id, DEFAULT_PRODUCT_NAME, DEFAULT_PRICE);
     }
 }

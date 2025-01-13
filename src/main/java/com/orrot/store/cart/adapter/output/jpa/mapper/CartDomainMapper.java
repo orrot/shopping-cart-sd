@@ -4,6 +4,7 @@ import com.orrot.store.cart.adapter.output.jpa.entity.CartJpaEntity;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.common.jpa.BaseDomainMapper;
 import com.orrot.store.onlineuser.adapter.output.jpa.entity.OnlineClientJpaEntity;
+import com.orrot.store.product.domain.model.Product;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.CollectionMappingStrategy;
@@ -16,6 +17,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
@@ -56,8 +58,10 @@ public interface CartDomainMapper extends BaseDomainMapper<Cart, CartJpaEntity> 
     @AfterMapping
     default void mapItems(CartJpaEntity entity, @MappingTarget Cart domain) {
         CollectionUtils.emptyIfNull(entity.getItems())
-                .forEach(entityItem ->
-                        domain.addItems(entityItem.getProductId(), entityItem.getProductName(),
-                            entityItem.getCurrentPrice(), entityItem.getQuantity()));
+                .forEach(entityItem -> {
+                    var productEntity = Objects.requireNonNull(entityItem.getProduct(), "Product is required");
+                    var product = Product.createValid(productEntity.getId(), productEntity.getName(), productEntity.getCurrentPrice());
+                    domain.addItems(product, entityItem.getQuantity());
+                });
     }
 }

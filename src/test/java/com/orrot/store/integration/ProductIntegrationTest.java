@@ -111,7 +111,7 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
         @DisplayName("Should return OK status and the page of products")
         @Sql(value = "/sql/product/default_list.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
         @Sql(value = "/sql/product/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-        void shouldReturnOkAndThePageOfProducts() throws Exception {
+        void shouldReturnOkAndThePageCreateValidProducts() throws Exception {
 
             // When / Then
             var result = mockMvc.perform(get("/v1/products")

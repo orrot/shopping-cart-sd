@@ -8,7 +8,7 @@ import lombok.Builder;
 public record CartItemPatch(
         @Schema(examples = { "ADD", "REMOVE", "SET_FIXED_QUANTITY" },
                 description = "Only ADD, REMOVE and SET_FIXED_QUANTITY are allowed") @NotNull CartOperation operation,
-        @Schema(example = "1", requiredMode = Schema.RequiredMode.REQUIRED) Long productId,
+        @Schema(example = "1", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull Long productId,
         @Schema(example = "1", requiredMode = Schema.RequiredMode.REQUIRED) int quantity) {
 
 

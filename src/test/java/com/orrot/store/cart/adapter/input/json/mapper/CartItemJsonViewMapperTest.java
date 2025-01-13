@@ -27,13 +27,13 @@ class CartItemJsonViewMapperTest {
         @DisplayName("Should map JSON View to Cart Item domain")
         void shouldMapToDomain() {
             // Given
-            var cartItemWrite = CartItemPatch.builder()
+            var cartItemPatch = CartItemPatch.builder()
                     .productId(1L)
                     .quantity(2)
                     .build();
 
             // When
-            var cartItem = mapper.mapToDomain(cartItemWrite);
+            var cartItem = mapper.mapToDomain(cartItemPatch);
 
             // Then
             assertThat(cartItem)

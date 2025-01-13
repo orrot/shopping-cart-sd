@@ -54,7 +54,7 @@ class ProductReadRestAdapterTest {
 
         @Test
         @DisplayName("Should return ok status and a list of products")
-        void shouldReturnOkStatusAndListOfProducts() throws Exception {
+        void shouldReturnOkStatusAndListCreateValidProducts() throws Exception {
             var products = List.of(MockerFactory.createDummy(Product.class));
             var pageable = PageRequest.of(0, 20);
 

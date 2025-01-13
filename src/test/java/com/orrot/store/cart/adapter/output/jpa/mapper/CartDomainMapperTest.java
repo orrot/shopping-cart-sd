@@ -7,6 +7,8 @@ import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.model.CartItem;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.onlineuser.adapter.output.jpa.entity.OnlineClientJpaEntity;
+import com.orrot.store.product.adapter.output.jpa.mapper.ProductDomainMapper;
+import com.orrot.store.product.domain.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,9 @@ import static org.assertj.core.api.Assertions.tuple;
 class CartDomainMapperTest {
 
     private final CartDomainMapper mapper = new com.orrot.store.cart.adapter.output.jpa.mapper.CartDomainMapperImpl(
-            Mappers.getMapper(CartItemDomainMapper.class),
+            new com.orrot.store.cart.adapter.output.jpa.mapper.CartItemDomainMapperImpl(
+                    Mappers.getMapper(ProductDomainMapper.class)
+            ),
             Mappers.getMapper(PaymentMethodDomainMapper.class));
 
     @DisplayName("When mapping domain to entity")
@@ -34,8 +38,8 @@ class CartDomainMapperTest {
         void shouldMapDomainToEntity() {
             // Given
             var domain = MockerFactory.createDummy(Cart.class);
-            domain.addItems(1L, "Product Name 1", BigDecimal.ONE, 1);
-            domain.addItems(2L, "Product Name 2", BigDecimal.TWO, 2);
+            domain.addItems(Product.createValid(1L, "Product 1", BigDecimal.ONE), 1);
+            domain.addItems(Product.createValid(2L, "Product 2", BigDecimal.ONE), 2);
 
             // When
             var entity = mapper.mapToJpaEntity(domain);
@@ -81,7 +85,9 @@ class CartDomainMapperTest {
 
             // Given
             var itemEntity1 = MockerFactory.createDummy(CartItemJpaEntity.class);
+            itemEntity1 = itemEntity1.withProductId(itemEntity1.getProduct().getId());
             var itemEntity2 = MockerFactory.createDummy(CartItemJpaEntity.class);
+            itemEntity2 = itemEntity2.withProductId(itemEntity2.getProduct().getId());
             var entity = MockerFactory.createDummy(CartJpaEntity.class)
                     .withItems(List.of(itemEntity1, itemEntity2));
 
@@ -112,8 +118,8 @@ class CartDomainMapperTest {
         void shouldMapDomainToExistingEntity() {
             // Given
             var domain = MockerFactory.createDummy(Cart.class);
-            domain.addItems(1L, "Product Name 1", BigDecimal.ONE, 1);
-            domain.addItems(2L, "Product Name 2", BigDecimal.TWO, 2);
+            domain.addItems(Product.createValid(1L, "Product 1", BigDecimal.ONE), 1);
+            domain.addItems(Product.createValid(2L, "Product 2", BigDecimal.ONE), 2);
 
             var existingEntity = mapper.mapToJpaEntity(domain);
 

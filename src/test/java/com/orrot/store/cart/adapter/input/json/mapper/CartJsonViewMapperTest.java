@@ -7,6 +7,7 @@ import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.model.PaymentMethod;
 import com.orrot.store.common.rest.json.IdentityCode;
 import com.orrot.store.common.rest.json.IdentityCodeName;
+import com.orrot.store.product.domain.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,7 +64,7 @@ class CartJsonViewMapperTest {
                             .build())
                     .build();
 
-           cart.addItems(1L, "product1", BigDecimal.valueOf(10_000), 5);
+           cart.addItems(Product.createValid(1L, "product1", BigDecimal.valueOf(10_000)), 5);
 
             var cartView = mapper.mapToView(cart);
 

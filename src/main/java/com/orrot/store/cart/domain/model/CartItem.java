@@ -1,7 +1,7 @@
 package com.orrot.store.cart.domain.model;
 
 import com.orrot.store.cart.domain.exception.QuantityLessThanZeroException;
-import jakarta.validation.constraints.NotEmpty;
+import com.orrot.store.product.domain.model.Product;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
@@ -25,37 +25,41 @@ public class CartItem {
 
     @EqualsAndHashCode.Include
     @ToString.Include
-    @NotNull(message = "Product ID is required")
-    private Long productId;
-
-    @NotEmpty(message = "Only a product with a name can be added to the cart")
-    private String productName;
-
-    @Positive(message = "Unit currentPrice must be greater or equals to zero")
-    private BigDecimal currentPrice;
+    @NotNull(message = "Product is required")
+    private Product product;
 
     @Positive(message = "Quantity must be greater than zero")
     @ToString.Include
     @Builder.Default
     private int quantity = 1;
 
-    public static CartItem of(Long productId, String productName, BigDecimal currentPrice, int quantity) {
+    public static CartItem of(Product productToUse, int quantity) {
         if (quantity < 0) {
             throw new QuantityLessThanZeroException("Quantity must be greater than zero");
         }
-        return new CartItem(productId, productName, currentPrice, quantity);
+        return new CartItem(productToUse, quantity);
     }
 
-    public static CartItem of(Long productId, BigDecimal currentPrice, int quantity) {
-        return of(productId, null, currentPrice, quantity);
+    public String getProductName() {
+        return Optional.ofNullable(product)
+                .map(Product::getName)
+                .orElse(null);
     }
 
-    public static CartItem of(Long productId, int quantity) {
-        return of(productId, null, null, quantity);
+    public Long getProductId() {
+        return Optional.ofNullable(product)
+                .map(Product::getId)
+                .orElse(null);
+    }
+
+    public BigDecimal getCurrentPrice() {
+        return Optional.ofNullable(product)
+                .map(Product::getCurrentPrice)
+                .orElse(null);
     }
 
     public BigDecimal getSubtotal() {
-        return Optional.ofNullable(currentPrice)
+        return Optional.ofNullable(getCurrentPrice())
                 .orElse(BigDecimal.ZERO)
                 .multiply(new BigDecimal(quantity));
     }
