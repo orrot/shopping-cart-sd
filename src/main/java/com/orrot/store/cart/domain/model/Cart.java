@@ -111,9 +111,7 @@ public class Cart implements Serializable {
         cartItemsByProductId.put(productId, itemToReplace);
     }
 
-
     public BigDecimal getTotal() {
-
         return cartItemsByProductId.values()
                 .stream()
                 .map(CartItem::getSubtotal)

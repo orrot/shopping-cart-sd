@@ -4,12 +4,14 @@ import com.orrot.store.cart.adapter.output.jpa.entity.PaymentMethodJpaEntity;
 import com.orrot.store.cart.domain.model.PaymentMethod;
 import com.orrot.store.common.jpa.BaseDomainMapper;
 import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface PaymentMethodDomainMapper extends BaseDomainMapper<PaymentMethod, PaymentMethodJpaEntity> {
 
     @Mapping(target = "carts", ignore = true)

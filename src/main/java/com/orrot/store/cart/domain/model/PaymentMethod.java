@@ -23,8 +23,10 @@ public class PaymentMethod {
 
     @NotEmpty(message = "Code in payment must not be empty")
     @NonNull
+    @ToString.Include
     private String code;
 
+    @ToString.Include
     private String name;
 
     @Builder.Default
@@ -38,7 +40,8 @@ public class PaymentMethod {
         return total -> {
             var fixedValueToUse = Objects.requireNonNullElse(fixedFee, BigDecimal.ZERO);
             var percentageValueToUse = Objects.requireNonNullElse(percentageFee, BigDecimal.ZERO);
-            return total.add(total.multiply(percentageValueToUse)).add(fixedValueToUse);
+            return total.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO :
+                    total.add(total.multiply(percentageValueToUse)).add(fixedValueToUse);
         };
     }
 }

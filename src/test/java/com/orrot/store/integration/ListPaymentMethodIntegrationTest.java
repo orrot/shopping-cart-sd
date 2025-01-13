@@ -1,10 +1,9 @@
 package com.orrot.store.integration;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.jayway.jsonpath.JsonPath;
 import com.orrot.store.AbstractContainerBaseTest;
 import com.orrot.store.cart.adapter.input.json.PaymentMethodView;
+import com.orrot.store.common.JsonUtils;
 import com.orrot.store.common.rest.ResourcesURI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,11 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlMergeMode;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -55,9 +50,7 @@ public class ListPaymentMethodIntegrationTest extends AbstractContainerBaseTest 
                     .andReturn();
 
             // Assert
-            var contentAsString = JsonPath.read(result.getResponse().getContentAsString(), "$.content").toString();
-            var listType = new TypeToken<ArrayList<PaymentMethodView>>() {}.getType();
-            List<PaymentMethodView> paymentMethods = new Gson().fromJson(contentAsString, listType);
+            var paymentMethods = JsonUtils.extractListFrom(result, "$.content", PaymentMethodView.class);
 
             assertThat(paymentMethods)
                     .as("All the fields for all the payment methods should be non-null")

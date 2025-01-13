@@ -23,10 +23,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.With;
 
 import java.io.Serial;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -36,6 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@With
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @NamedEntityGraph(name = "Cart.fullInfo",
@@ -74,11 +75,4 @@ public class CartJpaEntity extends BaseJpaEntity {
     @Builder.Default
     private List<CartItemJpaEntity> items = new ArrayList<>();
 
-    public void setItems(Collection<CartItemJpaEntity> items) {
-        this.items.clear();
-        items.forEach(
-                cartItemJpaEntity -> cartItemJpaEntity.setCart(this));
-        this.items.addAll(items);
-
-    }
 }

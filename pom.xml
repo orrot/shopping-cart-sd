@@ -28,6 +28,17 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<commons-lang3.version>3.17.0</commons-lang3.version>
+		<vavr.version>0.10.5</vavr.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<commons-collections4.version>4.4</commons-collections4.version>
+		<lombok.version>1.18.36</lombok.version>
+		<build-helper-maven-plugin.version>1.4</build-helper-maven-plugin.version>
+		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+		<lombok-mapstruct-mapping.version>0.2.0</lombok-mapstruct-mapping.version>
+		<podam.version>8.0.2.RELEASE</podam.version>
+		<commons-beanutils.version>1.10.0</commons-beanutils.version>
 	</properties>
 
 	<dependencyManagement>
@@ -75,46 +86,35 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.17.0</version>
+			<version>${commons-lang3.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
-			<version>0.10.5</version>
+			<version>${vavr.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-common -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.6.0</version>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.6.3</version>
+			<version>${mapstruct.version}</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.6.3</version>
+			<version>${mapstruct.version}</version>
 		</dependency>
-
-
-
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
-			<version>4.4</version>
+			<version>${commons-collections4.version}</version>
 		</dependency>
-
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -129,7 +129,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.36</version>
+			<version>${lombok.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -152,6 +152,17 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>uk.co.jemos.podam</groupId>
+			<artifactId>podam</artifactId>
+			<version>${podam.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${commons-beanutils.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -159,7 +170,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.4</version>
+				<version>${build-helper-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>test</id>
@@ -187,23 +198,23 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.6.3</version>
+							<version>${mapstruct.version}</version>
 						</path>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.36</version>
+							<version>${lombok.version}</version>
 						</path>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok-mapstruct-binding</artifactId>
-							<version>0.2.0</version>
+							<version>${lombok-mapstruct-mapping.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -229,7 +240,7 @@
 			<plugin>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-maven-plugin</artifactId>
-				<version>1.4</version>
+				<version>${build-helper-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>integration-test</phase>

@@ -3,10 +3,12 @@ package com.orrot.store.cart.adapter.input.json.mapper;
 import com.orrot.store.cart.adapter.input.json.CartView;
 import com.orrot.store.cart.adapter.input.json.CartWrite;
 import com.orrot.store.cart.domain.model.Cart;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface CartJsonViewMapper {
 
 

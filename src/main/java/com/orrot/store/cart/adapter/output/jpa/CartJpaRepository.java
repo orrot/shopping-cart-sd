@@ -16,5 +16,5 @@ public interface CartJpaRepository extends BaseJpaRepository<CartJpaEntity, Long
     Optional<CartJpaEntity> findById(@NonNull Long cartId);
 
     @Query("SELECT SUM(it.quantity) FROM CartItem it WHERE it.cart.id = :cartId")
-    long findQuantitySumByCartId(@Param("cartId") Long cartId);
+    Long findQuantitySumByCartId(@Param("cartId") Long cartId);
 }

@@ -39,7 +39,7 @@ class CartTest {
         @DisplayName("Should return zero when cart is empty")
         void shouldReturnZeroIfCartIsEmpty() {
             var cart = Cart.builder()
-                    .paymentMethod(CASH_PAYMENT_METHOD)
+                    .paymentMethod(VISA_PAYMENT_METHOD)
                     .build();
 
             // When
@@ -77,6 +77,22 @@ class CartTest {
     @Nested
     @DisplayName("When calculating Cart Total Price With Payment Fee")
     class WhenCalculateCartTotalWithFee {
+
+        @Test
+        @DisplayName("Should return zero when cart is empty")
+        void shouldReturnZeroIfCartIsEmpty() {
+            var cart = Cart.builder()
+                    .paymentMethod(VISA_PAYMENT_METHOD)
+                    .build();
+
+            // When
+            var totalWithFee = cart.getTotalWithFee();
+
+            // Then
+            assertThat(totalWithFee)
+                    .as("Total should be the sum of the items")
+                    .isEqualByComparingTo(BigDecimal.ZERO);
+        }
 
         @Test
         @DisplayName("Should return the sum of the total of items with Fee for Fixed Payment Method")
@@ -120,22 +136,6 @@ class CartTest {
             assertThat(totalWithFee)
                     .as("Total should be the sum of the items plus the fee")
                     .isEqualByComparingTo(new BigDecimal(14_060));
-        }
-
-        @Test
-        @DisplayName("Should return zero when cart is empty")
-        void shouldReturnZeroIfCartIsEmpty() {
-            var cart = Cart.builder()
-                    .paymentMethod(CASH_PAYMENT_METHOD)
-                    .build();
-
-            // When
-            var totalWithFee = cart.getTotalWithFee();
-
-            // Then
-            assertThat(totalWithFee)
-                    .as("Total should be the sum of the items")
-                    .isEqualByComparingTo(BigDecimal.ZERO);
         }
     }
 }

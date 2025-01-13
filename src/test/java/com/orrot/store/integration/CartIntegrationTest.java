@@ -80,7 +80,7 @@ public class CartIntegrationTest extends AbstractContainerBaseTest {
         void shouldReturnNoContentStatusAndUpdateOnlyTheClientOwner() throws Exception {
 
             // Then
-            var cartToUpdate = CartExamples.update(-2L, null);
+            var cartToUpdate = CartExamples.dummyToWrite(-2L, null);
             mockMvc.perform(patch("/v1/carts/{id}", CART_ID_PAYMENT_UPDATE)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(gson.toJson(cartToUpdate)))
@@ -100,7 +100,7 @@ public class CartIntegrationTest extends AbstractContainerBaseTest {
         void shouldReturnNoContentStatusAndUpdateOnlyThePayment() throws Exception {
 
             // Then
-            var cartToUpdate = CartExamples.update(null, "CASH");
+            var cartToUpdate = CartExamples.dummyToWrite(null, "CASH");
             mockMvc.perform(patch("/v1/carts/{id}", CART_ID_PAYMENT_UPDATE)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(gson.toJson(cartToUpdate)))

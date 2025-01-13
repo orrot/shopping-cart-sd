@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
 
     private void throwExceptionIfBrokenRule(Cart cartToCreate) {
         var businessRuleResults = CartRule.checkAllSatisfied(cartToCreate, cartRules);
-        if (!businessRuleResults.isBusinessFlowCorrect()) {
+        if (!businessRuleResults.areRulesSatisfied()) {
             throw new BusinessRuleException(
                     StringUtils.join(businessRuleResults.notifications(), StoreConstants.DEFAULT_MESSAGE_DELIMITER));
         }

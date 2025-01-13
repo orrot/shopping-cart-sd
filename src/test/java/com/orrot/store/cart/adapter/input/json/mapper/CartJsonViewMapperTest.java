@@ -1,9 +1,8 @@
-package com.orrot.store.cart.adapter.input.mapper;
+package com.orrot.store.cart.adapter.input.json.mapper;
 
 import com.orrot.store.cart.adapter.input.json.CartItemView;
 import com.orrot.store.cart.adapter.input.json.CartView;
 import com.orrot.store.cart.adapter.input.json.CartWrite;
-import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapper;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.model.PaymentMethod;
 import com.orrot.store.common.rest.json.IdentityCode;
@@ -30,7 +29,7 @@ class CartJsonViewMapperTest {
         @DisplayName("Should map JSON View to Carts domain")
         void shouldMapToDomain() {
             var cartWrite = CartWrite.builder()
-                    .onlineClientOwnerId(1L)
+                    .onlineClientOwnerId(2L)
                     .paymentMethod(new IdentityCode("VISA"))
                     .build();
 
@@ -38,8 +37,8 @@ class CartJsonViewMapperTest {
 
             assertThat(cart)
                     .isNotNull()
-                    .extracting(Cart::getId, Cart::getOnlineClientOwnerId)
-                    .containsExactly(1L, "user1");
+                    .extracting(Cart::getOnlineClientOwnerId)
+                    .isEqualTo(2L);
 
             assertThat(cart.getPaymentMethod())
                     .isNotNull()
@@ -57,7 +56,7 @@ class CartJsonViewMapperTest {
         void shouldMapToDomain() {
            var cart = Cart.builder()
                     .id(1L)
-                    .onlineClientOwnerId(1L)
+                    .onlineClientOwnerId(2L)
                     .paymentMethod(PaymentMethod.builder()
                             .code("VISA")
                             .name("Visa Payment")
@@ -71,7 +70,7 @@ class CartJsonViewMapperTest {
             assertThat(cartView)
                     .isNotNull()
                     .extracting(CartView::id, CartView::onlineClientOwnerId)
-                    .containsExactly(1L, "user1");
+                    .containsExactly(1L, 2L);
 
             assertThat(cartView.paymentMethod())
                     .isNotNull()

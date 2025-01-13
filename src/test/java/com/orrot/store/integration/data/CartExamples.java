@@ -13,7 +13,7 @@ public class CartExamples {
                 .build();
     }
 
-    public static CartWrite update(Long onlineClientId, String paymentMethodCode) {
+    public static CartWrite dummyToWrite(Long onlineClientId, String paymentMethodCode) {
         return CartWrite.builder()
                 .onlineClientOwnerId(onlineClientId)
                 .paymentMethod(new IdentityCode(paymentMethodCode))

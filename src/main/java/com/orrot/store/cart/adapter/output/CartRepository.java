@@ -8,11 +8,11 @@ import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.common.exception.DomainSavingException;
 import com.orrot.store.common.jpa.BaseDomainRepository;
 import io.vavr.control.Either;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Repository
@@ -38,6 +38,8 @@ public class CartRepository extends BaseDomainRepository<Cart, CartJpaEntity, Lo
 
     @Override
     public long findSumOfItems(Long cartId) {
-        return cartJpaRepository.findQuantitySumByCartId(cartId);
+        return Optional.ofNullable(cartId)
+                .map(cartJpaRepository::findQuantitySumByCartId)
+                .orElse(0L);
     }
 }

@@ -21,7 +21,7 @@ public class OnlineClientExamples {
                 .build();
     }
 
-    public static OnlineClientView dummy(Number id, OnlineClientWrite onlineClientWrite) {
+    public static OnlineClientView dummyView(Number id, OnlineClientWrite onlineClientWrite) {
         return OnlineClientView.builder()
                 .id(id.longValue())
                 .name(onlineClientWrite.name())
@@ -29,7 +29,7 @@ public class OnlineClientExamples {
                 .build();
     }
 
-    public static OnlineClientWrite update(OnlineClientWrite onlineClientWrite) {
+    public static OnlineClientWrite updateAllFields(OnlineClientWrite onlineClientWrite) {
         return onlineClientWrite.toBuilder()
                 .name(onlineClientWrite.name() + UPDATED_STRING)
                 .address(

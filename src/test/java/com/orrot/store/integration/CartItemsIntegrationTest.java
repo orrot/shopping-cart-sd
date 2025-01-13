@@ -1,12 +1,11 @@
 package com.orrot.store.integration;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.jayway.jsonpath.JsonPath;
 import com.orrot.store.AbstractContainerBaseTest;
 import com.orrot.store.cart.adapter.input.json.CartItemPatch;
 import com.orrot.store.cart.adapter.input.json.CartItemView;
 import com.orrot.store.integration.data.CartExamples;
+import com.orrot.store.common.JsonUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Order;
@@ -18,9 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
@@ -66,14 +62,11 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
                     .andExpect(status().isNoContent());
 
             // Assert
-            var response = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
+            var result = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
                     .contentType(MediaType.APPLICATION_JSON))
-                    .andReturn()
-                    .getResponse();
+                    .andReturn();
 
-            var contentAsString = JsonPath.read(response.getContentAsString(), "$.items").toString();
-            var listType = new TypeToken<ArrayList<CartItemView>>(){}.getType();
-            List<CartItemView> items = new Gson().fromJson(contentAsString, listType);
+            var items = JsonUtils.extractListFrom(result, "$.items", CartItemView.class);
 
             assertThat(items)
                     .extracting(CartItemView::productId, CartItemView::quantity)
@@ -93,14 +86,11 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
                     .andExpect(status().isNoContent());
 
             // Assert
-            var response = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
+            var result = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andReturn()
-                    .getResponse();
+                    .andReturn();
 
-            var contentAsString = JsonPath.read(response.getContentAsString(), "$.items").toString();
-            var listType = new TypeToken<ArrayList<CartItemView>>(){}.getType();
-            List<CartItemView> items = new Gson().fromJson(contentAsString, listType);
+            var items = JsonUtils.extractListFrom(result, "$.items", CartItemView.class);
 
             assertThat(items)
                     .extracting(CartItemView::productId)
@@ -120,14 +110,11 @@ public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
                     .andExpect(status().isNoContent());
 
             // Assert
-            var response = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
+            var result = mockMvc.perform(get("/v1/carts/{id}", CART_ID_CLIENT_UPDATE)
                             .contentType(MediaType.APPLICATION_JSON))
-                    .andReturn()
-                    .getResponse();
+                    .andReturn();
 
-            var contentAsString = JsonPath.read(response.getContentAsString(), "$.items").toString();
-            var listType = new TypeToken<ArrayList<CartItemView>>(){}.getType();
-            List<CartItemView> items = new Gson().fromJson(contentAsString, listType);
+            var items = JsonUtils.extractListFrom(result, "$.items", CartItemView.class);
 
             assertThat(items)
                     .extracting(CartItemView::productId, CartItemView::quantity)

@@ -2,9 +2,9 @@ package com.orrot.store.product.adapter.input;
 
 
 import com.google.gson.Gson;
-import com.orrot.store.common.rest.ResourcesURI;
+import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.config.web.SecurityConfig;
-import com.orrot.store.product.adapter.input.json.ProductWrite;
+import com.orrot.store.product.adapter.input.json.ProductView;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapper;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapperImpl;
 import com.orrot.store.product.domain.model.Product;
@@ -22,9 +22,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
-
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -55,15 +54,15 @@ class ProductWriteRestAdapterTest {
     class WhenCreatingProduct {
 
         @Test
-        @DisplayName("Should return created status and ID of the created product")
-        void shouldReturnCreatedStatusAndGeneratedIdShouldBeReturned() throws Exception {
-            var product = createProduct();
-            given(createProductUseCase.createProduct(product))
+        @DisplayName("Should return created status and return the ID of the Generated Product")
+        void shouldReturnCreatedStatusAndReturnIDOfTheGeneratedProduct() throws Exception {
+            var product = MockerFactory.createDummy(Product.class);
+            given(createProductUseCase.createProduct(argThat(prod -> prod.getId() == null)))
                     .willReturn(product.withId(40L));
 
-            mockMvc.perform(post(ResourcesURI.PRODUCTS_URI)
+            mockMvc.perform(post("/v1/products")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(gson.toJson(createProductJson())))
+                            .content(gson.toJson(MockerFactory.createDummy(ProductView.class))))
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.id").value(40L));
         }
@@ -82,29 +81,13 @@ class ProductWriteRestAdapterTest {
                     .given(updateProductUseCase)
                     .updateProduct(any());
 
-            mockMvc.perform(put(ResourcesURI.PRODUCTS_URI + "/1")
+            mockMvc.perform(put("/v1/products/{id}", 1)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(gson.toJson(createProductJson())))
+                            .content(gson.toJson(MockerFactory.createDummy(ProductView.class))))
                     .andExpect(status().isNoContent())
                     .andExpect(jsonPath("$")
                             .doesNotExist());
         }
 
-    }
-
-    private static Product createProduct() {
-        return Product.builder()
-                .name("Product")
-                .currentPrice(new BigDecimal(100))
-                .description("My Desc")
-                .build();
-    }
-
-    private static ProductWrite createProductJson() {
-        return ProductWrite.builder()
-                .name("Product")
-                .currentPrice(new BigDecimal(100))
-                .description("My Desc")
-                .build();
     }
 }

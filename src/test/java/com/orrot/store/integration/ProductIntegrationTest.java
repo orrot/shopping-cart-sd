@@ -1,9 +1,9 @@
 package com.orrot.store.integration;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.jayway.jsonpath.JsonPath;
 import com.orrot.store.AbstractContainerBaseTest;
+import com.orrot.store.common.JsonUtils;
 import com.orrot.store.integration.data.ProductExamples;
 import com.orrot.store.product.adapter.input.json.ProductView;
 import org.junit.jupiter.api.DisplayName;
@@ -17,9 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -64,7 +61,7 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().json(
-                            gson.toJson(ProductExamples.dummy(id, productToCreate))));
+                            gson.toJson(ProductExamples.dummyView(id, productToCreate))));
 
         }
     }
@@ -89,7 +86,7 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
             Integer productIdToUpdate = JsonPath.read(result.getResponse().getContentAsString(), "$.id");;
 
             // Then
-            var productToUpdate = ProductExamples.update(createdProduct);
+            var productToUpdate = ProductExamples.updateAllFields(createdProduct);
             mockMvc.perform(put("/v1/products/{id}", productIdToUpdate)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(gson.toJson(productToUpdate)))
@@ -101,7 +98,7 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().json(
-                            gson.toJson(ProductExamples.dummy(productIdToUpdate, productToUpdate))));
+                            gson.toJson(ProductExamples.dummyView(productIdToUpdate, productToUpdate))));
         }
 
     }
@@ -124,9 +121,7 @@ public class ProductIntegrationTest extends AbstractContainerBaseTest {
                     .andReturn();
 
             // Assert
-            var contentAsString = JsonPath.read(result.getResponse().getContentAsString(), "$.content").toString();
-            var listType = new TypeToken<ArrayList<ProductView>>(){}.getType();
-            List<ProductView> products = new Gson().fromJson(contentAsString, listType);
+            var products = JsonUtils.extractListFrom(result, "$.content", ProductView.class);
 
             assertThat(products)
                     .as("All the fields for all the products should be non-null")

@@ -4,7 +4,7 @@ import java.util.List;
 
 public record BusinessRuleResult(
 
-    boolean isBusinessFlowCorrect,
+    boolean areRulesSatisfied,
     List<String> notifications
 ) {
 

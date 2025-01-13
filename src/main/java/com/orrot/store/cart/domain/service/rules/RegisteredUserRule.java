@@ -19,7 +19,7 @@ public final class RegisteredUserRule extends CartRule {
     private final OnlineClientRepository onlineClientRepository;
 
     @Override
-    public BusinessRuleResult areSatisfiedBy(Cart cart) {
+    public BusinessRuleResult isSatisfiedBy(Cart cart) {
         return !cart.isOnlineClientAssigned() || isOnlineClientRegistered(cart) ?
                 BusinessRuleResult.SUCCESS :
                 BusinessRuleResult.withError(ERROR_UNREGISTERED_USER

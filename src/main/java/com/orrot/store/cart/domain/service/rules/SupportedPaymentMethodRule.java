@@ -17,7 +17,7 @@ public final class SupportedPaymentMethodRule extends CartRule {
     private final PaymentMethodRepository paymentMethodRepository;
 
     @Override
-    public BusinessRuleResult areSatisfiedBy(Cart cart) {
+    public BusinessRuleResult isSatisfiedBy(Cart cart) {
         return isValidCartPaymentMethod(cart) ?
                 BusinessRuleResult.SUCCESS :
                 BusinessRuleResult.withError(ERROR_UNSUPPORTED_PAYMENT_METHOD

@@ -21,6 +21,8 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -57,5 +59,17 @@ public class CartItemJpaEntity implements Serializable {
 
     @Builder.Default
     private int quantity = 1;
+
+    public String getProductName() {
+        return Optional.ofNullable(product)
+                .map(ProductJpaEntity::getName)
+                .orElse(null);
+    }
+
+    public BigDecimal getCurrentPrice() {
+        return Optional.ofNullable(product)
+                .map(ProductJpaEntity::getCurrentPrice)
+                .orElse(null);
+    }
 
 }

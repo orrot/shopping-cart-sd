@@ -1,7 +1,6 @@
-package com.orrot.store.cart.adapter.input.mapper;
+package com.orrot.store.cart.adapter.input.json.mapper;
 
 import com.orrot.store.cart.adapter.input.json.CartItemPatch;
-import com.orrot.store.cart.adapter.input.json.mapper.CartItemJsonViewMapper;
 import com.orrot.store.cart.domain.model.CartItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

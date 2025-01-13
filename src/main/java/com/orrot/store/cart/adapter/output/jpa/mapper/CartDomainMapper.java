@@ -4,66 +4,59 @@ import com.orrot.store.cart.adapter.output.jpa.entity.CartJpaEntity;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.common.jpa.BaseDomainMapper;
 import com.orrot.store.onlineuser.adapter.output.jpa.entity.OnlineClientJpaEntity;
-import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,
-        uses = { PaymentMethodDomainMapper.class })
-@RequiredArgsConstructor
-public abstract class CartDomainMapper implements BaseDomainMapper<Cart, CartJpaEntity> {
-
-    @Autowired
-    private CartItemDomainMapper cartItemDomainMapper;
+        uses = { CartItemDomainMapper.class, PaymentMethodDomainMapper.class })
+public interface CartDomainMapper extends BaseDomainMapper<Cart, CartJpaEntity> {
 
     @Mapping(target = "onlineClientOwner.id", source = "onlineClientOwnerId")
-    public abstract CartJpaEntity mapToJpaEntity(Cart domain);
+    CartJpaEntity mapToJpaEntity(Cart domain);
 
     @InheritInverseConfiguration(name = "mapToJpaEntity")
-    public abstract Cart mapToDomain(CartJpaEntity entity);
+    Cart mapToDomain(CartJpaEntity entity);
 
-    @Mapping(target = "items", ignore = true)
     @Mapping(target = "paymentMethod", expression = "java(paymentMethodDomainMapper.mapToJpaEntity(domain.getPaymentMethod()))")
     @Mapping(target = "onlineClientOwner", source = "onlineClientOwnerId", qualifiedByName = "mapToOnlineClientOwner")
-    public abstract CartJpaEntity mapToExistingEntity(Cart domain, @MappingTarget CartJpaEntity entity);
+    CartJpaEntity mapToExistingEntity(Cart domain, @MappingTarget CartJpaEntity entity);
 
+
+    // Special method mappings
     @Named("mapToOnlineClientOwner")
-    OnlineClientJpaEntity mapToOnlineClientOwner(Long onlineClientOwnerId) {
+    default OnlineClientJpaEntity mapToOnlineClientOwner(Long onlineClientOwnerId) {
         return Optional.ofNullable(onlineClientOwnerId)
                 .map(id -> OnlineClientJpaEntity.builder().id(id).build())
                 .orElse(null);
     }
 
     @AfterMapping
-    void mapEntityItems(@MappingTarget CartJpaEntity entity, Cart domain) {
-        var entityItems = domain.getItems()
-                .stream()
-                .map(cartItemDomainMapper::mapToJpaEntity)
-                .collect(Collectors.toList());
-        entity.setItems(entityItems);
-
+    default void mapEntityItems(@MappingTarget CartJpaEntity entity, Cart domain) {
         if (domain.getOnlineClientOwnerId() == null) {
             entity.setOnlineClientOwner(null);
         }
+        // Set the parent allows to handle ALL operations over children (Add, Update, Remove)
+        entity.getItems()
+                .forEach(item -> item.setCart(entity));
     }
 
     @AfterMapping
-    void mapItems(CartJpaEntity entity, @MappingTarget Cart domain) {
-        entity.getItems()
-                .stream()
-                .map(cartItemDomainMapper::mapToDomain)
-                .forEach(item -> domain.addItems(
-                        item.getProductId(), item.getProductName(), item.getCurrentPrice(), item.getQuantity()));
+    default void mapItems(CartJpaEntity entity, @MappingTarget Cart domain) {
+        CollectionUtils.emptyIfNull(entity.getItems())
+                .forEach(entityItem ->
+                        domain.addItems(entityItem.getProductId(), entityItem.getProductName(),
+                            entityItem.getCurrentPrice(), entityItem.getQuantity()));
     }
 }
