@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(ResourcesURI.CARTS_URI)
 @Tag(name = ResourcesURI.CARTS_TAG)
 @RequiredArgsConstructor
-// TODO Document rest API
 public class CartWriteRestAdapter {
 
     private final CartJsonViewMapper mapper;

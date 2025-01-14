@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.With;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -28,12 +29,8 @@ import java.util.SequencedMap;
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
+@With
 public class Cart implements Serializable {
-
-    public static final PaymentMethod DEFAULT_PAYMENT_METHOD = PaymentMethod.builder()
-            .code("CASH")
-            .build();
-
     @Serial
     private static final long serialVersionUID = -5512687501901452445L;
 
@@ -46,8 +43,7 @@ public class Cart implements Serializable {
     // messages should be treated with i18n. For this example, we are not handling it.
     @NotNull(message = "Payment method is required")
     @ToString.Include
-    @Builder.Default
-    private PaymentMethod paymentMethod = DEFAULT_PAYMENT_METHOD;
+    private PaymentMethod paymentMethod;
 
     @Getter
     @ToString.Include

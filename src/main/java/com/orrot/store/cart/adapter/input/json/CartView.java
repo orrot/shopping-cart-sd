@@ -18,6 +18,4 @@ public record CartView(
         BigDecimal totalWithFee,
         List<CartItemView> items) {
 
-        // TODO Get the total amount of the cart and fee
-
 }

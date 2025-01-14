@@ -20,7 +20,6 @@ import java.util.Optional;
 @RequestMapping(ResourcesURI.CARTS_URI)
 @Tag(name = ResourcesURI.CARTS_TAG)
 @RequiredArgsConstructor
-// TODO Document rest API
 public class CartReadRestAdapter {
 
     private final CartJsonViewMapper mapper;
@@ -32,7 +31,7 @@ public class CartReadRestAdapter {
     public CartView findCartById(@PathVariable("id") Long id) {
         // Query
         return Optional.ofNullable(id)
-                .map(getCartSummaryUseCase::getCartById)
+                .map(getCartSummaryUseCase::findCartById)
                 .map(mapper::mapToView)
                 .orElseThrow();
     }

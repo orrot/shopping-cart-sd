@@ -55,17 +55,19 @@ class ProductReadRestAdapterTest {
         @Test
         @DisplayName("Should return ok status and a list of products")
         void shouldReturnOkStatusAndListCreateValidProducts() throws Exception {
-            var products = List.of(MockerFactory.createDummy(Product.class));
+            var product = MockerFactory.createDummy(Product.class);
             var pageable = PageRequest.of(0, 20);
 
             given(listProductsUseCase.listProducts(eq(pageable)))
-                    .willReturn(new PageImpl<>(products, pageable, products.size()));
+                    .willReturn(new PageImpl<>(List.of(product), pageable, 1));
 
             mockMvc.perform(get("/v1/products")
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.totalElements").value(1))
                     .andExpect(jsonPath("$.content").isArray())
+                    .andExpect(jsonPath("$.content[0].id").value(product.getId()))
+                    .andExpect(jsonPath("$.content[0].name").value(product.getName()))
                     .andReturn();
         }
     }

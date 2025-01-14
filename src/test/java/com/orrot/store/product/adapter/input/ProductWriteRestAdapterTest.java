@@ -4,7 +4,7 @@ package com.orrot.store.product.adapter.input;
 import com.google.gson.Gson;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.config.web.SecurityConfig;
-import com.orrot.store.product.adapter.input.json.ProductView;
+import com.orrot.store.product.adapter.input.json.ProductWrite;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapper;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapperImpl;
 import com.orrot.store.product.domain.model.Product;
@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -62,7 +62,7 @@ class ProductWriteRestAdapterTest {
 
             mockMvc.perform(post("/v1/products")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(gson.toJson(MockerFactory.createDummy(ProductView.class))))
+                            .content(gson.toJson(MockerFactory.createDummy(ProductWrite.class))))
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.id").value(40L));
         }
@@ -77,16 +77,16 @@ class ProductWriteRestAdapterTest {
         @DisplayName("Should return no content status and body should be empty")
         void shouldReturnNoContentStatusAndBodyEmpty() throws Exception {
 
-            willDoNothing()
-                    .given(updateProductUseCase)
-                    .updateProduct(any());
-
             mockMvc.perform(put("/v1/products/{id}", 1)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(gson.toJson(MockerFactory.createDummy(ProductView.class))))
+                            .content(gson.toJson(MockerFactory.createDummy(ProductWrite.class))))
                     .andExpect(status().isNoContent())
                     .andExpect(jsonPath("$")
                             .doesNotExist());
+
+            then(updateProductUseCase)
+                    .should()
+                    .updateProduct(any(Product.class));
         }
 
     }
