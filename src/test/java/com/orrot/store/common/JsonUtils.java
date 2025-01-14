@@ -22,13 +22,8 @@ public class JsonUtils {
         return GSON.fromJson(json, listType);
     }
 
-    public static <T> List<T> extractListFrom(MvcResult mvcResult, Class<T> type) throws UnsupportedEncodingException {
-        var json = mvcResult.getResponse().getContentAsString();
-        return extractListFrom(json, type);
-    }
-
     public static <T> List<T> extractListFrom(MvcResult mvcResult, String jsonPath, Class<T> type) throws UnsupportedEncodingException {
-        var json = JsonPath.read(mvcResult.getResponse().getContentAsString(), jsonPath).toString();;
+        var json = JsonPath.read(mvcResult.getResponse().getContentAsString(), jsonPath).toString();
         return extractListFrom(json, type);
     }
 

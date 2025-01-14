@@ -83,7 +83,7 @@ public class ProductIT extends AbstractContainerBaseTest {
                     .andExpect(status().isCreated())
                     .andReturn();
 
-            Integer productIdToUpdate = JsonPath.read(result.getResponse().getContentAsString(), "$.id");;
+            Integer productIdToUpdate = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 
             // Then
             var productToUpdate = ProductExamples.updateAllFields(createdProduct);

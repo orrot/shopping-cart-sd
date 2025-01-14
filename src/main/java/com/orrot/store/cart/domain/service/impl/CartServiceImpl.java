@@ -7,7 +7,6 @@ import com.orrot.store.cart.domain.service.rules.CartRule;
 import com.orrot.store.common.StoreConstants;
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
-import com.orrot.store.common.exception.UnExistingResourceException;
 import io.vavr.control.Either;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +37,7 @@ public class CartServiceImpl implements CartService {
         return Either.<GeneralShoppingCartException, Cart>
                         right(cartToCreate)
                 .filterOrElse(cart -> cart.getId() == null,
-                        cart -> new UnExistingResourceException(
+                        cart -> new BusinessRuleException(
                                 "The cart ID must be null to be created"))
                 .map(cart -> cartRepository.create(cartToCreate))
                 .getOrElseThrow(Function.identity());
@@ -55,11 +54,12 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findById(cartId);
     }
 
-    private void throwExceptionIfBrokenRule(Cart cartToCreate) {
-        var businessRuleResults = CartRule.checkAllSatisfied(cartToCreate, cartRules);
-        if (!businessRuleResults.areRulesSatisfied()) {
+    private void throwExceptionIfBrokenRule(Cart cartToProcess) {
+        var combinedResult = CartRule.combineRules(cartToProcess, cartRules)
+                .isSatisfiedBy(cartToProcess);
+        if (combinedResult.isRuleNotSatisfied()) {
             throw new BusinessRuleException(
-                    StringUtils.join(businessRuleResults.notifications(), StoreConstants.DEFAULT_MESSAGE_DELIMITER));
+                    StringUtils.join(combinedResult.notifications(), StoreConstants.DEFAULT_MESSAGE_DELIMITER));
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public final class RegisteredUserRule extends CartRule {
+public final class RegisteredClientRule extends CartRule {
 
     public static final String ERROR_UNREGISTERED_USER = "The User with id '%d' must be registered so the cart could be assigned";
 

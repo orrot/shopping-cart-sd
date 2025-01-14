@@ -23,7 +23,7 @@ import java.util.SequencedMap;
 
 /*
     * Cart class represents a shopping cart.
-    * Only deferred validations with spring implemented. Code validations fail fast, but we need for them: more code, we got no validation groups, we got no accumulated errors in an easy way.
+    * Only deferred validations with spring implemented. Code validations fail fast, but we need for them: more code, we got no validation groups, we got no accumulated notifications in an easy way.
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(toBuilder = true)
