@@ -2,6 +2,13 @@ package com.orrot.store.common.specification;
 
 import java.util.List;
 
+/**
+ * Class that represents the result of a business rule. Additional to the boolean, this class can contain any notification about the rule.
+ * Notification could be any message, but mainly could be errors.
+ *
+ * @param isRuleSatisfied
+ * @param notifications
+ */
 public record BusinessRuleResult(
 
     boolean isRuleSatisfied,

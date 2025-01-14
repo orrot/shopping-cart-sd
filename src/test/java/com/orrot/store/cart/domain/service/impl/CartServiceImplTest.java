@@ -81,7 +81,7 @@ class CartServiceImplTest {
 
             given(rule1.isSatisfiedBy(cart))
                     .willReturn(BusinessRuleResult.SUCCESS);
-            
+
             // Then
             assertThatThrownBy(() -> cartServiceImpl.createEmptyCart(cart))
                     .isInstanceOf(BusinessRuleException.class)
