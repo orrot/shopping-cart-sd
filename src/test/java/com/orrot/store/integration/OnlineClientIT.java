@@ -32,8 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-@DisplayName("During Online Client CRUD Flows")
-public class OnlineClientIntegrationTest extends AbstractContainerBaseTest {
+@DisplayName("INTEGRATION TEST: During Online Client CRUD Flows")
+public class OnlineClientIT extends AbstractContainerBaseTest {
 
     private static final Gson gson = new Gson();
 

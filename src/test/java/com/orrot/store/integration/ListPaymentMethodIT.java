@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@DisplayName("During Payment Method Listing")
-public class ListPaymentMethodIntegrationTest extends AbstractContainerBaseTest {
+@DisplayName("INTEGRATION TEST: During Payment Method Listing")
+public class ListPaymentMethodIT extends AbstractContainerBaseTest {
 
     private static final Gson gson = new Gson();
 

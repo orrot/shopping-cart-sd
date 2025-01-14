@@ -29,8 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@DisplayName("During Product CRUD Flows")
-public class ProductIntegrationTest extends AbstractContainerBaseTest {
+@DisplayName("INTEGRATION TEST: During Product CRUD Flows")
+public class ProductIT extends AbstractContainerBaseTest {
 
     private static final Gson gson = new Gson();
 

@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@DisplayName("During Cart Items Adding, Removing or Replacing")
-public class CartItemsIntegrationTest extends AbstractContainerBaseTest {
+@DisplayName("INTEGRATION TEST: During Cart Items Adding, Removing or Replacing")
+public class CartItemsIT extends AbstractContainerBaseTest {
 
 
     private static final Long CART_ID_CLIENT_UPDATE = -5L;
