@@ -37,7 +37,7 @@ public class CartRepository extends BaseDomainRepository<Cart, CartJpaEntity, Lo
     }
 
     @Override
-    public long findSumOfItems(Long cartId) {
+    public Long findSumOfItems(Long cartId) {
         return Optional.ofNullable(cartId)
                 .map(cartJpaRepository::findQuantitySumByCartId)
                 .orElse(0L);

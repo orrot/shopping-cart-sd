@@ -3,6 +3,7 @@ package com.orrot.store.cart.port.input;
 import com.orrot.store.cart.adapter.input.json.CartItemPatch;
 import com.orrot.store.cart.domain.service.CartService;
 import com.orrot.store.cart.port.usecase.AddOrUpdateCartItemsUseCase;
+import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.UnExistingRelationshipException;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.product.domain.service.ProductService;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AddOrUpdateCartItemsInputPort implements AddOrUpdateCartItemsUseCase {
 
+    public static final String ERROR_UNEXISTING_CART = "Cart ID '%d' of the item to be added must exist";
+    public static final String ERROR_UNEXISTING_PRODUCT = "Product ID '%d' does not exist";
     private final CartService cartService;
     private final ProductService productService;
 
@@ -23,10 +26,10 @@ public class AddOrUpdateCartItemsInputPort implements AddOrUpdateCartItemsUseCas
 
         var cart = cartService.findById(cartId)
                 .orElseThrow(() -> new UnExistingResourceException(
-                        "Cart ID '%d' of the item to be added must exist", cartId));
+                        ERROR_UNEXISTING_CART, cartId));
         var product = productService.findById(productId)
-                .orElseThrow(() -> new UnExistingRelationshipException(
-                        "Product ID '%d' does not exist".formatted(productId)));
+                .orElseThrow(() -> new BusinessRuleException(
+                        ERROR_UNEXISTING_PRODUCT.formatted(productId)));
         switch (operation) {
             case ADD ->
                     cart.addItems(product, quantity);
