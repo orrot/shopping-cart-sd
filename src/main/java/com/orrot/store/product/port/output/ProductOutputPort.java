@@ -10,5 +10,9 @@ public interface ProductOutputPort {
 
     Optional<Product> findById(Long productId);
 
+    Product create(Product productToCreate);
+
+    Product update(Long productId, Product productToUpdate);
+
     Page<Product> findAll(Pageable pageable);
 }

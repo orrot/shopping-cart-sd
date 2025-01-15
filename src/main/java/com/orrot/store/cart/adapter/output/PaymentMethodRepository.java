@@ -10,8 +10,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Optional;
-
 @Repository
 @Transactional
 @Validated

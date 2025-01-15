@@ -3,7 +3,7 @@ package com.orrot.store.cart.domain.service.rules;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.common.specification.BusinessRuleResult;
-import com.orrot.store.onlineuser.adapter.output.OnlineClientRepository;
+import com.orrot.store.onlineuser.port.output.OnlineClientOutputPort;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class RegisteredClientRuleTest {
     private RegisteredClientRule registeredClientRule;
 
     @Mock
-    private OnlineClientRepository onlineClientRepository;
+    private OnlineClientOutputPort onlineClientOutputPort;
 
     @Nested
     @DisplayName("When checking if the user is registered")
@@ -56,7 +56,7 @@ class RegisteredClientRuleTest {
             Cart cart = MockerFactory.createDummy(Cart.class)
                     .withOnlineClientOwnerId(DEFAULT_CLIENT_ID);
 
-            given(onlineClientRepository.existsById(DEFAULT_CLIENT_ID))
+            given(onlineClientOutputPort.existsById(DEFAULT_CLIENT_ID))
                     .willReturn(true);
 
             // When

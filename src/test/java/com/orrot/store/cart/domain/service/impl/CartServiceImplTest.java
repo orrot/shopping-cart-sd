@@ -1,10 +1,10 @@
 package com.orrot.store.cart.domain.service.impl;
 
-import com.orrot.store.cart.adapter.output.CartRepository;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.service.rules.CartRule;
 import com.orrot.store.cart.domain.service.rules.RegisteredClientRule;
 import com.orrot.store.cart.domain.service.rules.SupportedPaymentMethodRule;
+import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.common.specification.BusinessRuleResult;
@@ -37,7 +37,7 @@ class CartServiceImplTest {
     private CartServiceImpl cartServiceImpl;
 
     @Mock
-    private CartRepository cartRepository;
+    private CartOutputPort cartOutputPort;
 
     private final RegisteredClientRule rule1 = Mockito.mock(RegisteredClientRule.class);
 
@@ -58,7 +58,7 @@ class CartServiceImplTest {
             given(rule1.isSatisfiedBy(cart))
                     .willReturn(BusinessRuleResult.SUCCESS);
 
-            given(cartRepository.create(argThat(c -> c.getId() == null)))
+            given(cartOutputPort.create(argThat(c -> c.getId() == null)))
                     .willReturn(cart.withId(DEFAULT_CART_ID));
 
             // When
@@ -87,7 +87,7 @@ class CartServiceImplTest {
                     .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("The cart ID must be null to be created");
 
-            then(cartRepository).shouldHaveNoInteractions();
+            then(cartOutputPort).shouldHaveNoInteractions();
         }
 
         @Test
@@ -158,7 +158,7 @@ class CartServiceImplTest {
             cartServiceImpl.updateCart(cart);
 
             // Then
-            then(cartRepository).should().update(cart);
+            then(cartOutputPort).should().update(cart);
         }
 
         @Test
@@ -186,7 +186,7 @@ class CartServiceImplTest {
         void shouldReturnCartIfExists() {
             // Given
             var cart = MockerFactory.createDummy(Cart.class);
-            given(cartRepository.findById(1L)).willReturn(Optional.of(cart));
+            given(cartOutputPort.findById(1L)).willReturn(Optional.of(cart));
 
             // When
             var result = cartServiceImpl.findById(1L);
@@ -200,7 +200,7 @@ class CartServiceImplTest {
         @DisplayName("Should return empty if cart does not exist")
         void shouldReturnEmptyIfCartDoesNotExist() {
             // Given
-            given(cartRepository.findById(1L)).willReturn(Optional.empty());
+            given(cartOutputPort.findById(1L)).willReturn(Optional.empty());
 
             // When
             var result = cartServiceImpl.findById(1L);

@@ -1,7 +1,7 @@
 package com.orrot.store.cart.domain.service.rules;
 
-import com.orrot.store.cart.adapter.output.PaymentMethodRepository;
 import com.orrot.store.cart.domain.model.Cart;
+import com.orrot.store.cart.port.output.PaymentMethodOutputPort;
 import com.orrot.store.common.specification.BusinessRuleResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public final class SupportedPaymentMethodRule extends CartRule {
 
     public static final String ERROR_UNSUPPORTED_PAYMENT_METHOD = "The Payment Method '%s' is not supported. Please use a valid one.";
 
-    private final PaymentMethodRepository paymentMethodRepository;
+    private final PaymentMethodOutputPort paymentMethodOutputPort;
 
     @Override
     public BusinessRuleResult isSatisfiedBy(Cart cart) {
@@ -27,7 +27,7 @@ public final class SupportedPaymentMethodRule extends CartRule {
     private boolean isValidCartPaymentMethod(Cart cart) {
         return Optional.ofNullable(cart)
                 .map(Cart::getPaymentMethodCode)
-                .map(paymentMethodRepository::existsById)
+                .map(paymentMethodOutputPort::existsById)
                 .orElse(false);
     }
 }

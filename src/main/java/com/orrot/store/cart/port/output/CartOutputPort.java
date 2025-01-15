@@ -10,6 +10,8 @@ public interface CartOutputPort {
 
     void update(Cart cartToUpdate);
 
+    boolean existsById(Long id);
+
     Optional<Cart> findById(Long cartId);
 
     Long findSumOfItems(Long cartId);

@@ -1,9 +1,9 @@
 package com.orrot.store.cart.domain.service.impl;
 
-import com.orrot.store.cart.adapter.output.CartRepository;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.service.CartService;
 import com.orrot.store.cart.domain.service.rules.CartRule;
+import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.common.StoreConstants;
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.GeneralShoppingCartException;
@@ -26,7 +26,7 @@ import java.util.function.Function;
 @Transactional
 public class CartServiceImpl implements CartService {
 
-    private final CartRepository cartRepository;
+    private final CartOutputPort cartOutputPort;
     // Rules: RegisteredUserRule, SupportedPaymentMethodRule
     private final List<CartRule> cartRules;
 
@@ -39,19 +39,19 @@ public class CartServiceImpl implements CartService {
                 .filterOrElse(cart -> cart.getId() == null,
                         cart -> new BusinessRuleException(
                                 "The cart ID must be null to be created"))
-                .map(cart -> cartRepository.create(cartToCreate))
+                .map(cart -> cartOutputPort.create(cartToCreate))
                 .getOrElseThrow(Function.identity());
     }
 
     @Override
     public void updateCart(@NotNull @Valid Cart cartToUpdate) {
         throwExceptionIfBrokenRule(cartToUpdate);
-        cartRepository.update(cartToUpdate);
+        cartOutputPort.update(cartToUpdate);
     }
 
     @Override
     public Optional<Cart> findById(Long cartId) {
-        return cartRepository.findById(cartId);
+        return cartOutputPort.findById(cartId);
     }
 
     private void throwExceptionIfBrokenRule(Cart cartToProcess) {

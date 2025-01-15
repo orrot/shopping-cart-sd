@@ -1,6 +1,6 @@
 package com.orrot.store.cart.port.input;
 
-import com.orrot.store.cart.adapter.output.CartRepository;
+import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.cart.port.usecase.CountCartItemsUseCase;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +14,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class CountCartItemsInputPort implements CountCartItemsUseCase {
 
-    private final CartRepository cartRepository;
+    private final CartOutputPort cartOutputPort;
 
     @Override
     public long countCartItems(Long cartId) {
         return Optional.ofNullable(cartId)
-                .filter(cartRepository::existsById)
-                .map(cartRepository::findSumOfItems)
+                .filter(cartOutputPort::existsById)
+                .map(cartOutputPort::findSumOfItems)
                 .orElseThrow(() -> new UnExistingResourceException("Cart with ID '%d' does not exist", cartId));
     }
 

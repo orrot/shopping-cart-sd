@@ -1,6 +1,7 @@
 package com.orrot.store.cart.port.input;
 
 import com.orrot.store.cart.adapter.output.CartRepository;
+import com.orrot.store.cart.port.output.CartOutputPort;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,7 +24,7 @@ class CountCartItemsInputPortTest {
     private CountCartItemsInputPort countCartItemsInputPort;
 
     @Mock
-    private CartRepository cartRepository;
+    private CartOutputPort cartOutputPort;
 
     @Nested
     @DisplayName("When counting items in the cart")
@@ -32,9 +33,9 @@ class CountCartItemsInputPortTest {
         @Test
         @DisplayName("Should return the count of items in the cart")
         void shouldReturnCountOfItemsInCart() {
-            given(cartRepository.existsById(DEFAULT_CART_ID))
+            given(cartOutputPort.existsById(DEFAULT_CART_ID))
                     .willReturn(true);
-            given(cartRepository.findSumOfItems(DEFAULT_CART_ID))
+            given(cartOutputPort.findSumOfItems(DEFAULT_CART_ID))
                     .willReturn(5L);
 
             Long count = countCartItemsInputPort.countCartItems(DEFAULT_CART_ID);
@@ -45,7 +46,7 @@ class CountCartItemsInputPortTest {
         @Test
         @DisplayName("Should throw exception if cart does not exist")
         void shouldThrowExceptionIfCartDoesNotExist() {
-            given(cartRepository.existsById(DEFAULT_CART_ID)).willReturn(false);
+            given(cartOutputPort.existsById(DEFAULT_CART_ID)).willReturn(false);
 
             assertThatThrownBy(() -> countCartItemsInputPort.countCartItems(DEFAULT_CART_ID))
                     .isInstanceOf(UnExistingResourceException.class)

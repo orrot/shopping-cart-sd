@@ -1,7 +1,7 @@
 package com.orrot.store.cart.port.input;
 
-import com.orrot.store.cart.adapter.output.PaymentMethodRepository;
 import com.orrot.store.cart.domain.model.PaymentMethod;
+import com.orrot.store.cart.port.output.PaymentMethodOutputPort;
 import com.orrot.store.common.podam.MockerFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,7 +27,7 @@ class ListPaymentMethodsInputPortTest {
     private ListPaymentMethodsInputPort listPaymentMethodsInputPort;
 
     @Mock
-    private PaymentMethodRepository paymentMethodRepository;
+    private PaymentMethodOutputPort paymentMethodOutputPort;
 
     @Nested
     @DisplayName("When listing payment methods")
@@ -41,7 +41,7 @@ class ListPaymentMethodsInputPortTest {
             PaymentMethod paymentMethod = MockerFactory.createDummy(PaymentMethod.class);
             Page<PaymentMethod> paymentMethodsPage = new PageImpl<>(List.of(paymentMethod));
 
-            given(paymentMethodRepository.findAll(pageable))
+            given(paymentMethodOutputPort.findAll(pageable))
                     .willReturn(paymentMethodsPage);
 
             // Then

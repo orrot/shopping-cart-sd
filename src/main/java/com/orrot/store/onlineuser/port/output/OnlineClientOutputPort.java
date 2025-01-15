@@ -10,5 +10,11 @@ public interface OnlineClientOutputPort {
 
     Optional<OnlineClient> findById(Long id);
 
+    OnlineClient create(OnlineClient onlineClientToCreate);
+
+    OnlineClient update(Long id, OnlineClient onlineClientToUpdate);
+
+    boolean existsById(Long id);
+
     Page<OnlineClient> findAll(Pageable pageable);
 }
