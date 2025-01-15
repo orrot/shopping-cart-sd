@@ -2,9 +2,9 @@ package com.orrot.store.product.domain.model;
 
 import com.orrot.store.cart.domain.exception.InvalidProductException;
 import io.vavr.control.Either;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,8 +33,8 @@ public class Product {
     @NotEmpty(message = "Product name is required")
     private String name;
 
-    @NotNull(message = "Product currentPrice is required")
-    @Positive(message = "Unit currentPrice must be greater or equals to zero")
+    @NotNull(message = "Product current price is required")
+    @DecimalMin(message = "Product current price must be greater or equals to zero", value = "0")
     private BigDecimal currentPrice;
 
     private String description;

@@ -3,15 +3,19 @@ package com.orrot.store.product.domain.service.impl;
 import com.orrot.store.product.domain.model.Product;
 import com.orrot.store.product.domain.service.ProductService;
 import com.orrot.store.product.port.output.ProductOutputPort;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+@Validated
 public class ProductServiceImpl implements ProductService {
 
     private final ProductOutputPort productOutputPort;
