@@ -2,18 +2,15 @@
 
 ## Content Table
 
-Yoy do not need to read all the document. Just "How To Run The Project" section is required.
+Yoy do not need to read all the document. Just "How To Run The Project" section is required and "Getting started".
 The API is prepared so you can play with it using Swagger and without requiring DB access.
 Even some data is created by default.
 
 - [How To Run The Project](#how-to-run-the-project)
-
+- [Getting Started](#getting-started)
 - [Other Commands](#other-commands)
-
 - [Assumptions and idea](#assumptions-and-idea)
-
 - [Architecture](#architecture)
-
 - [Unit tests and integration tests](#unit-tests-and-integration-tests)
 
 ## How to run the project
@@ -27,24 +24,70 @@ Even some data is created by default.
 ### Steps
 
 - Clone the repository
-```
+```bash
 git clone https://github.com/orrot/shopping-cart-sd.git
 ``` 
 
 - Go to the root of the repo and start the required infrastructure (for the moment only a MySQL instance):
-```
+```bash
 docker compose up -d
 ```
 
-- Start the spring boot application
+The database with name `shopping-cart-sd` should be created automatically by the Compose file. 
+The data should be stored in a host folder (volume) with name `dbdata` in the root folder. 
+
+- To compile executing all the unit and integration tests
+```bash
+mvn clean install
 ```
+
+- Start the spring boot application
+```bash
 mvn spring-boot:run
 ```
 
 - Open the browser and go to the following URL:
-```
+```bash
 http://localhost:8080/swagger-ui/index.html#/
 ```
+
+- To compile skipping integration tests
+```bash
+mvn clean install -DskipITs
+```
+
+## Getting Started
+
+The API already has some data created by default. The data is:
+
+- 3 products
+- 2 clients
+- 3 payment methods
+
+#### PRODUCTS
+
+| ID | Name    | Curren Price    |
+| :-----: | :---: | :---: |
+| Banana | 2000   | Fruit by unit  |
+| Orange | 1000   | Fruit by unit  |
+| Strawberry | 2000   | Kg price   |
+
+#### CLIENTS
+
+| ID | Name    | Address |
+|:--:| :---: |:-------:|
+| 1  | Robotito   |    *    |
+| 2  | Pablo Mármol   |    *    |
+
+#### PAYMENT METHODS
+
+|    Code    | Name    |   Fee Fixed   | Fee Percentage |
+|:----------:| :---: |:-------------:|:--------------:|
+| CASH   | Cash   |       0       |       0        | 
+| MASTERCARD   | Mastercard Credit Card   | 800 |       4%       |
+| VISA | Visa Credit Card   |   800    |       2%       |
+
+Use them or create your own data to test the API.
 
 ## Other commands
 
@@ -134,14 +177,3 @@ This increase the complexity, but allow also us to:
 
 - Only cart folder is entirely covered by unit tests (ignoring some mappers conditional branches created by MapStruct).
 - The integration tests were implemented for all the features, but just the Happy-Path
-
-
-- To compile executing all the unit and integration tests
-```
-mvn clean install
-```
-
-- To compile skipping integration tests
-```
-mvn clean install -DskipITs
-```
