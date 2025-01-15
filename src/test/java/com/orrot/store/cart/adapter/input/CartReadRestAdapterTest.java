@@ -3,7 +3,7 @@ package com.orrot.store.cart.adapter.input;
 import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapper;
 import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapperImpl;
 import com.orrot.store.cart.domain.model.Cart;
-import com.orrot.store.cart.port.usecase.GetCartSummaryUseCase;
+import com.orrot.store.cart.port.input.GetCartSummaryInputPort;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.config.web.SecurityConfig;
@@ -35,7 +35,7 @@ class CartReadRestAdapterTest {
     private CartJsonViewMapper mapper;
 
     @MockBean
-    private GetCartSummaryUseCase getCartSummaryUseCase;
+    private GetCartSummaryInputPort getCartSummaryInputPort;
 
     @Nested
     @DisplayName("When getting a cart by ID")
@@ -45,7 +45,7 @@ class CartReadRestAdapterTest {
         @DisplayName("Should return ok status and the cart")
         void shouldReturnOkStatusAndCart() throws Exception {
             var cart = MockerFactory.createDummy(Cart.class);
-            given(getCartSummaryUseCase.findCartById(cart.getId()))
+            given(getCartSummaryInputPort.findCartById(cart.getId()))
                     .willReturn(cart);
 
             mockMvc.perform(get("/v1/carts/{id}", cart.getId())
@@ -62,7 +62,7 @@ class CartReadRestAdapterTest {
         @DisplayName("Should return not found status when the cart does not exist")
         void shouldReturnNotFoundWhenCartDoesNotExist() throws Exception {
 
-            given(getCartSummaryUseCase.findCartById(1L))
+            given(getCartSummaryInputPort.findCartById(1L))
                     .willThrow(new UnExistingResourceException("Cart not found"));
 
             mockMvc.perform(get("/v1/carts/{id}", 1L)

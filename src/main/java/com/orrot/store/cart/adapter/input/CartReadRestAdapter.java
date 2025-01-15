@@ -2,7 +2,7 @@ package com.orrot.store.cart.adapter.input;
 
 import com.orrot.store.cart.adapter.input.json.CartView;
 import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapper;
-import com.orrot.store.cart.port.usecase.GetCartSummaryUseCase;
+import com.orrot.store.cart.port.input.GetCartSummaryInputPort;
 import com.orrot.store.common.rest.ResourcesURI;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class CartReadRestAdapter {
 
     private final CartJsonViewMapper mapper;
-    private final GetCartSummaryUseCase getCartSummaryUseCase;
+    private final GetCartSummaryInputPort getCartSummaryInputPort;
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -31,7 +31,7 @@ public class CartReadRestAdapter {
     public CartView findCartById(@PathVariable("id") Long id) {
         // Query
         return Optional.ofNullable(id)
-                .map(getCartSummaryUseCase::findCartById)
+                .map(getCartSummaryInputPort::findCartById)
                 .map(mapper::mapToView)
                 .orElseThrow();
     }

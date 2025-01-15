@@ -8,8 +8,8 @@ import com.orrot.store.product.adapter.input.json.ProductWrite;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapper;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapperImpl;
 import com.orrot.store.product.domain.model.Product;
-import com.orrot.store.product.port.usecase.CreateProductUseCase;
-import com.orrot.store.product.port.usecase.UpdateProductUseCase;
+import com.orrot.store.product.port.usecase.CreateProductInputPort;
+import com.orrot.store.product.port.usecase.UpdateProductInputPort;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,10 +44,10 @@ class ProductWriteRestAdapterTest {
     private ProductJsonViewMapper mapper;
 
     @MockBean
-    private CreateProductUseCase createProductUseCase;
+    private CreateProductInputPort createProductInputPort;
 
     @MockBean
-    private UpdateProductUseCase updateProductUseCase;
+    private UpdateProductInputPort updateProductInputPort;
 
     @Nested
     @DisplayName("When creating a product")
@@ -57,7 +57,7 @@ class ProductWriteRestAdapterTest {
         @DisplayName("Should return created status and return the ID of the Generated Product")
         void shouldReturnCreatedStatusAndReturnIDCreateValidTheGeneratedProduct() throws Exception {
             var product = MockerFactory.createDummy(Product.class);
-            given(createProductUseCase.createProduct(argThat(prod -> prod.getId() == null)))
+            given(createProductInputPort.createProduct(argThat(prod -> prod.getId() == null)))
                     .willReturn(product.withId(40L));
 
             mockMvc.perform(post("/v1/products")
@@ -84,7 +84,7 @@ class ProductWriteRestAdapterTest {
                     .andExpect(jsonPath("$")
                             .doesNotExist());
 
-            then(updateProductUseCase)
+            then(updateProductInputPort)
                     .should()
                     .updateProduct(any(Product.class));
         }

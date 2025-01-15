@@ -2,6 +2,7 @@ package com.orrot.store.cart.port.input;
 
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.service.CartService;
+import com.orrot.store.cart.port.usecase.GetCartSummaryUseCase;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.podam.MockerFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -19,12 +20,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class GetCartSummaryInputPortTest {
+class GetCartSummaryUseCaseTest {
 
     private static final Long DEFAULT_CART_ID = 1L;
 
     @InjectMocks
-    private GetCartSummaryInputPort getCartSummaryInputPort;
+    private GetCartSummaryUseCase getCartSummaryUseCase;
 
     @Mock
     private CartService cartService;
@@ -42,7 +43,7 @@ class GetCartSummaryInputPortTest {
             given(cartService.findById(DEFAULT_CART_ID))
                     .willReturn(Optional.of(cart));
 
-            var cartReturned = getCartSummaryInputPort.findCartById(DEFAULT_CART_ID);
+            var cartReturned = getCartSummaryUseCase.findCartById(DEFAULT_CART_ID);
 
             assertThat(cartReturned)
                     .isEqualTo(cart);
@@ -54,7 +55,7 @@ class GetCartSummaryInputPortTest {
             given(cartService.findById(DEFAULT_CART_ID))
                     .willReturn(Optional.empty());
 
-            assertThatThrownBy(() -> getCartSummaryInputPort.findCartById(DEFAULT_CART_ID))
+            assertThatThrownBy(() -> getCartSummaryUseCase.findCartById(DEFAULT_CART_ID))
                     .isInstanceOf(UnExistingResourceException.class)
                     .hasMessageContaining("Cart ID '%d' does not exist", DEFAULT_CART_ID);
         }

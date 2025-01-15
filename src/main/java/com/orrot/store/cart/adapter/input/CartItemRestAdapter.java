@@ -1,8 +1,8 @@
 package com.orrot.store.cart.adapter.input;
 
 import com.orrot.store.cart.adapter.input.json.CartItemPatch;
-import com.orrot.store.cart.port.usecase.AddOrUpdateCartItemsUseCase;
-import com.orrot.store.cart.port.usecase.CountCartItemsUseCase;
+import com.orrot.store.cart.port.input.AddOrUpdateCartItemsInputPort;
+import com.orrot.store.cart.port.input.CountCartItemsInputPort;
 import com.orrot.store.common.rest.ResourcesURI;
 import com.orrot.store.common.rest.json.TotalCount;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = ResourcesURI.CART_ITEMS_TAG)
 public class CartItemRestAdapter {
 
-    private final AddOrUpdateCartItemsUseCase addOrUpdateCartItemsUseCase;
-    private final CountCartItemsUseCase countCartItemsUseCase;
+    private final AddOrUpdateCartItemsInputPort addOrUpdateCartItemsInputPort;
+    private final CountCartItemsInputPort countCartItemsInputPort;
 
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -34,7 +34,7 @@ public class CartItemRestAdapter {
             "SET_FIXED_QUANTITY: Sets the quantity to the specified product.")
     public void addOrUpdateCartItem(@PathVariable("cartId") Long cartId,
                                     @RequestBody CartItemPatch cartItem) {
-        addOrUpdateCartItemsUseCase
+        addOrUpdateCartItemsInputPort
                 .addOrUpdateCartItem(cartItem.operation(), cartId, cartItem.productId(), cartItem.quantity());
     }
 
@@ -44,6 +44,6 @@ public class CartItemRestAdapter {
     public TotalCount countCartItems(@PathVariable("cartId") Long cartId) {
         // Consider combine Query Params and Specifications for more dynamic queries
         return new TotalCount(
-                countCartItemsUseCase.countCartItems(cartId));
+                countCartItemsInputPort.countCartItems(cartId));
     }
 }

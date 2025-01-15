@@ -2,6 +2,7 @@ package com.orrot.store.cart.port.input;
 
 import com.orrot.store.cart.domain.model.PaymentMethod;
 import com.orrot.store.cart.port.output.PaymentMethodOutputPort;
+import com.orrot.store.cart.port.usecase.ListPaymentMethodsUseCase;
 import com.orrot.store.common.podam.MockerFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,10 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class ListPaymentMethodsInputPortTest {
+class ListPaymentMethodsUseCaseTest {
 
     @InjectMocks
-    private ListPaymentMethodsInputPort listPaymentMethodsInputPort;
+    private ListPaymentMethodsUseCase listPaymentMethodsUseCase;
 
     @Mock
     private PaymentMethodOutputPort paymentMethodOutputPort;
@@ -45,7 +46,7 @@ class ListPaymentMethodsInputPortTest {
                     .willReturn(paymentMethodsPage);
 
             // Then
-            Page<PaymentMethod> page = listPaymentMethodsInputPort.listPaymentMethods(pageable);
+            Page<PaymentMethod> page = listPaymentMethodsUseCase.listPaymentMethods(pageable);
 
             // Assert
             assertThat(page)

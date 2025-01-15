@@ -4,8 +4,8 @@ import com.orrot.store.common.rest.ResourcesURI;
 import com.orrot.store.common.rest.json.IdentityId;
 import com.orrot.store.onlineuser.adapter.input.json.OnlineClientWrite;
 import com.orrot.store.onlineuser.adapter.input.json.mapper.OnlineClientJsonViewMapper;
-import com.orrot.store.onlineuser.port.usecase.CreateOnlineClientUseCase;
-import com.orrot.store.onlineuser.port.usecase.UpdateOnlineClientUseCase;
+import com.orrot.store.onlineuser.port.input.CreateOnlineClientInputPort;
+import com.orrot.store.onlineuser.port.input.UpdateOnlineClientInputPort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ public class OnlineClientWriteRestAdapter {
 
     private final OnlineClientJsonViewMapper mapper;
 
-    private final CreateOnlineClientUseCase createOnlineClientUseCase;
-    private final UpdateOnlineClientUseCase updateOnlineClientUseCase;
+    private final CreateOnlineClientInputPort createOnlineClientInputPort;
+    private final UpdateOnlineClientInputPort updateOnlineClientInputPort;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,7 +36,7 @@ public class OnlineClientWriteRestAdapter {
             @RequestBody OnlineClientWrite onlineClientWrite) {
 
         var onlineClient = mapper.mapToDomain(onlineClientWrite);
-        var createdClient = createOnlineClientUseCase
+        var createdClient = createOnlineClientInputPort
                 .createOnlineClient(onlineClient);
         return new IdentityId(createdClient.getId());
     }
@@ -49,6 +49,6 @@ public class OnlineClientWriteRestAdapter {
             @RequestBody OnlineClientWrite onlineClientWrite) {
 
         var onlineClient = mapper.mapToDomain(onlineClientWrite);
-        updateOnlineClientUseCase.updateOnlineClient(onlineClient.withId(id));
+        updateOnlineClientInputPort.updateOnlineClient(onlineClient.withId(id));
     }
 }

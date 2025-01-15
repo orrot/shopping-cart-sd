@@ -2,6 +2,7 @@ package com.orrot.store.cart.port.input;
 
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.service.CartService;
+import com.orrot.store.cart.port.usecase.UpdateCartInfoUseCase;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.podam.MockerFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -22,12 +23,12 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class UpdateCartInfoInputPortTest {
+class UpdateCartInfoUseCaseTest {
 
     private static final Long DEFAULT_CART_ID = 1L;
 
     @InjectMocks
-    private UpdateCartInfoInputPort updateCartInfoInputPort;
+    private UpdateCartInfoUseCase updateCartInfoUseCase;
 
     @Mock
     private CartService cartService;
@@ -50,7 +51,7 @@ class UpdateCartInfoInputPortTest {
                     .willReturn(Optional.of(cart));
 
             // When
-            updateCartInfoInputPort.updateCartInfo(
+            updateCartInfoUseCase.updateCartInfo(
                     DEFAULT_CART_ID, "OTHER PAYMENT", 30L);
 
             // Then
@@ -75,7 +76,7 @@ class UpdateCartInfoInputPortTest {
                     .willReturn(Optional.of(cart));
 
             // When
-            updateCartInfoInputPort.updateCartInfo(
+            updateCartInfoUseCase.updateCartInfo(
                     DEFAULT_CART_ID, "OTHER PAYMENT", null);
 
             // Then
@@ -100,7 +101,7 @@ class UpdateCartInfoInputPortTest {
                     .willReturn(Optional.of(cart));
 
             // When
-            updateCartInfoInputPort.updateCartInfo(
+            updateCartInfoUseCase.updateCartInfo(
                     DEFAULT_CART_ID, null, 30L);
 
             // Then
@@ -121,7 +122,7 @@ class UpdateCartInfoInputPortTest {
             given(cartService.findById(DEFAULT_CART_ID)).willReturn(Optional.empty());
 
             // Then
-            assertThatThrownBy(() -> updateCartInfoInputPort
+            assertThatThrownBy(() -> updateCartInfoUseCase
                     .updateCartInfo(DEFAULT_CART_ID, "ANY", 100L))
                     .isInstanceOf(UnExistingResourceException.class)
                     .hasMessageContaining("Cart ID '%d' must exist to be updated", DEFAULT_CART_ID);

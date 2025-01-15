@@ -3,8 +3,8 @@ package com.orrot.store.product.adapter.input;
 import com.orrot.store.common.rest.ResourcesURI;
 import com.orrot.store.product.adapter.input.json.ProductView;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapper;
-import com.orrot.store.product.port.usecase.GetProductByIdUseCase;
-import com.orrot.store.product.port.usecase.ListProductsUseCase;
+import com.orrot.store.product.port.usecase.GetProductByIdInputPort;
+import com.orrot.store.product.port.usecase.ListProductsInputPort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +28,15 @@ import java.util.Optional;
 public class ProductReadRestAdapter {
 
     private final ProductJsonViewMapper mapper;
-    private final ListProductsUseCase listProductsUseCase;
-    private final GetProductByIdUseCase getProductByIdUseCase;
+    private final ListProductsInputPort listProductsInputPort;
+    private final GetProductByIdInputPort getProductByIdInputPort;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "List all the products")
     public Page<ProductView> listProducts(
             @ParameterObject @PageableDefault(size = 20) Pageable pageable) {
-        return listProductsUseCase.listProducts(pageable)
+        return listProductsInputPort.listProducts(pageable)
                 .map(mapper::mapToView);
     }
 
@@ -45,7 +45,7 @@ public class ProductReadRestAdapter {
     @Operation(summary = "Get Product By ID")
     public ProductView findById(@PathVariable("id") Long id) {
         return Optional.of(id)
-                .map(getProductByIdUseCase::findById)
+                .map(getProductByIdInputPort::findById)
                 .map(mapper::mapToView)
                 .orElseThrow();
     }

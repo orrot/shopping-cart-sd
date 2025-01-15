@@ -2,8 +2,8 @@ package com.orrot.store.cart.adapter.input;
 
 import com.orrot.store.cart.adapter.input.json.CartWrite;
 import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapper;
-import com.orrot.store.cart.port.usecase.CreateEmptyCartUseCase;
-import com.orrot.store.cart.port.usecase.UpdateCartInfoUseCase;
+import com.orrot.store.cart.port.input.CreateEmptyCartInputPort;
+import com.orrot.store.cart.port.input.UpdateCartInfoInputPort;
 import com.orrot.store.common.rest.ResourcesURI;
 import com.orrot.store.common.rest.json.IdentityId;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,15 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartWriteRestAdapter {
 
     private final CartJsonViewMapper mapper;
-    private final CreateEmptyCartUseCase createEmptyCartUseCase;
-    private final UpdateCartInfoUseCase updateCartInfoUseCase;
+    private final CreateEmptyCartInputPort createEmptyCartInputPort;
+    private final UpdateCartInfoInputPort updateCartInfoInputPort;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Creates a new empty cart")
     public IdentityId createCart(@RequestBody CartWrite cartJson) {
         var cart = mapper.mapToDomain(cartJson);
-        var createdCart = createEmptyCartUseCase.createEmptyCart(cart);
+        var createdCart = createEmptyCartInputPort.createEmptyCart(cart);
         return new IdentityId(createdCart.getId());
     }
 
@@ -43,7 +43,7 @@ public class CartWriteRestAdapter {
     public void updateCart(
             @PathVariable("id") Long cartId,
             @RequestBody CartWrite cartJson) {
-        updateCartInfoUseCase.updateCartInfo(
+        updateCartInfoInputPort.updateCartInfo(
                 cartId, cartJson.paymentMethodCode(), cartJson.onlineClientOwnerId());
     }
 }

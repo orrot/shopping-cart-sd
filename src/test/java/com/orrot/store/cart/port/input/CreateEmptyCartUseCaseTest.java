@@ -2,6 +2,7 @@ package com.orrot.store.cart.port.input;
 
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.service.CartService;
+import com.orrot.store.cart.port.usecase.CreateEmptyCartUseCase;
 import com.orrot.store.common.podam.MockerFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,12 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class CreateEmptyCartInputPortTest {
+class CreateEmptyCartUseCaseTest {
 
     private static final Long DEFAULT_CART_ID = 1L;
 
     @InjectMocks
-    private CreateEmptyCartInputPort createEmptyCartInputPort;
+    private CreateEmptyCartUseCase createEmptyCartUseCase;
 
     @Mock
     private CartService cartService;
@@ -39,7 +40,7 @@ class CreateEmptyCartInputPortTest {
                     .willReturn(cart.withId(DEFAULT_CART_ID));
 
             // When
-            var createdCart = createEmptyCartInputPort.createEmptyCart(cart);
+            var createdCart = createEmptyCartUseCase.createEmptyCart(cart);
 
             // Then
             assertThat(createdCart)

@@ -5,8 +5,8 @@ import com.orrot.store.cart.adapter.input.json.CartWrite;
 import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapper;
 import com.orrot.store.cart.adapter.input.json.mapper.CartJsonViewMapperImpl;
 import com.orrot.store.cart.domain.model.Cart;
-import com.orrot.store.cart.port.usecase.CreateEmptyCartUseCase;
-import com.orrot.store.cart.port.usecase.UpdateCartInfoUseCase;
+import com.orrot.store.cart.port.input.CreateEmptyCartInputPort;
+import com.orrot.store.cart.port.input.UpdateCartInfoInputPort;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.config.web.SecurityConfig;
 import org.junit.jupiter.api.DisplayName;
@@ -42,10 +42,10 @@ class CartWriteRestAdapterTest {
     private CartJsonViewMapper mapper;
 
     @MockBean
-    private CreateEmptyCartUseCase createEmptyCartUseCase;
+    private CreateEmptyCartInputPort createEmptyCartInputPort;
     
     @MockBean
-    private UpdateCartInfoUseCase updateCartInfoUseCase;
+    private UpdateCartInfoInputPort updateCartInfoInputPort;
 
     @Nested
     @DisplayName("When creating an empty cart")
@@ -55,7 +55,7 @@ class CartWriteRestAdapterTest {
         @DisplayName("Should return created status and return the ID of the Generated Cart")
         void shouldReturnCreatedStatusAndReturnIDCreateValidTheGeneratedCart() throws Exception {
             var cart = MockerFactory.createDummy(Cart.class);
-            given(createEmptyCartUseCase.createEmptyCart(argThat(arg -> arg.getId() == null)))
+            given(createEmptyCartInputPort.createEmptyCart(argThat(arg -> arg.getId() == null)))
                     .willReturn(cart.withId(20L));
 
             mockMvc.perform(post("/v1/carts")
@@ -83,7 +83,7 @@ class CartWriteRestAdapterTest {
                     .andExpect(status().isNoContent())
                     .andExpect(jsonPath("$").doesNotExist());
 
-            then(updateCartInfoUseCase)
+            then(updateCartInfoInputPort)
                     .should()
                     .updateCartInfo(1L, cartWrite.paymentMethodCode(), cartWrite.onlineClientOwnerId());
         }

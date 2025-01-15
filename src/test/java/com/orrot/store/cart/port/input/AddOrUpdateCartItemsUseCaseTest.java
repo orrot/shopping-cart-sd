@@ -4,6 +4,7 @@ import com.orrot.store.cart.adapter.input.json.CartItemPatch;
 import com.orrot.store.cart.domain.model.Cart;
 import com.orrot.store.cart.domain.model.CartItem;
 import com.orrot.store.cart.domain.service.CartService;
+import com.orrot.store.cart.port.usecase.AddOrUpdateCartItemsUseCase;
 import com.orrot.store.common.exception.BusinessRuleException;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.podam.MockerFactory;
@@ -28,13 +29,13 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class AddOrUpdateCartItemsInputPortTest {
+class AddOrUpdateCartItemsUseCaseTest {
 
     private static final Long DEFAULT_CART_ID = 1L;
     private static final Long DEFAULT_PRODUCT_ID = 10L;
 
     @InjectMocks
-    private AddOrUpdateCartItemsInputPort addOrUpdateCartItemsInputPort;
+    private AddOrUpdateCartItemsUseCase addOrUpdateCartItemsUseCase;
 
     @Mock
     private CartService cartService;
@@ -55,7 +56,7 @@ class AddOrUpdateCartItemsInputPortTest {
             given(cartService.findById(DEFAULT_CART_ID))
                     .willReturn(Optional.empty());
 
-            assertThatThrownBy(() -> addOrUpdateCartItemsInputPort.addOrUpdateCartItem(
+            assertThatThrownBy(() -> addOrUpdateCartItemsUseCase.addOrUpdateCartItem(
                     CartItemPatch.CartOperation.ADD, DEFAULT_CART_ID, DEFAULT_PRODUCT_ID, 5))
                     .isInstanceOf(UnExistingResourceException.class)
                     .hasMessageContaining("Cart ID '%d' of the item to be added must exist", DEFAULT_CART_ID);
@@ -74,7 +75,7 @@ class AddOrUpdateCartItemsInputPortTest {
                     .willReturn(Optional.empty());
 
             // Then / Assert
-            assertThatThrownBy(() -> addOrUpdateCartItemsInputPort.addOrUpdateCartItem(
+            assertThatThrownBy(() -> addOrUpdateCartItemsUseCase.addOrUpdateCartItem(
                     CartItemPatch.CartOperation.ADD, DEFAULT_CART_ID, DEFAULT_PRODUCT_ID, 5))
                     .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Product ID '%d' does not exist", DEFAULT_PRODUCT_ID);
@@ -104,7 +105,7 @@ class AddOrUpdateCartItemsInputPortTest {
                     .willReturn(Optional.of(product));
 
             // Then
-            addOrUpdateCartItemsInputPort.addOrUpdateCartItem(
+            addOrUpdateCartItemsUseCase.addOrUpdateCartItem(
                     CartItemPatch.CartOperation.ADD, DEFAULT_CART_ID, DEFAULT_PRODUCT_ID, 3);
 
             // Assert
@@ -144,7 +145,7 @@ class AddOrUpdateCartItemsInputPortTest {
                     .willReturn(Optional.of(product));
 
             // Then
-            addOrUpdateCartItemsInputPort.addOrUpdateCartItem(
+            addOrUpdateCartItemsUseCase.addOrUpdateCartItem(
                     CartItemPatch.CartOperation.REMOVE, DEFAULT_CART_ID, DEFAULT_PRODUCT_ID, 3);
 
             // Assert
@@ -181,7 +182,7 @@ class AddOrUpdateCartItemsInputPortTest {
                     .willReturn(Optional.of(product));
 
             // Then
-            addOrUpdateCartItemsInputPort.addOrUpdateCartItem(
+            addOrUpdateCartItemsUseCase.addOrUpdateCartItem(
                     CartItemPatch.CartOperation.SET_FIXED_QUANTITY, DEFAULT_CART_ID, DEFAULT_PRODUCT_ID, 50);
 
             // Assert

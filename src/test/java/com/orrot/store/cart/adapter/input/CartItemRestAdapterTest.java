@@ -2,8 +2,8 @@ package com.orrot.store.cart.adapter.input;
 
 import com.google.gson.Gson;
 import com.orrot.store.cart.adapter.input.json.CartItemPatch;
-import com.orrot.store.cart.port.usecase.AddOrUpdateCartItemsUseCase;
-import com.orrot.store.cart.port.usecase.CountCartItemsUseCase;
+import com.orrot.store.cart.port.input.AddOrUpdateCartItemsInputPort;
+import com.orrot.store.cart.port.input.CountCartItemsInputPort;
 import com.orrot.store.common.exception.UnExistingResourceException;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.config.web.SecurityConfig;
@@ -35,10 +35,10 @@ class CartItemRestAdapterTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private AddOrUpdateCartItemsUseCase addOrUpdateCartItemsUseCase;
+    private AddOrUpdateCartItemsInputPort addOrUpdateCartItemsInputPort;
 
     @MockBean
-    private CountCartItemsUseCase countCartItemsUseCase;
+    private CountCartItemsInputPort countCartItemsInputPort;
 
     @Nested
     @DisplayName("When adding an item to the cart")
@@ -53,7 +53,7 @@ class CartItemRestAdapterTest {
                             .content(gson.toJson(cartItemPatch)))
                     .andExpect(status().isNoContent());
 
-            then(addOrUpdateCartItemsUseCase)
+            then(addOrUpdateCartItemsInputPort)
                     .should()
                     .addOrUpdateCartItem(cartItemPatch.operation(), 1L, cartItemPatch.productId(), cartItemPatch.quantity());
         }
@@ -67,7 +67,7 @@ class CartItemRestAdapterTest {
         @DisplayName("Should return ok status and the calculated total count")
         void shouldReturnOkStatusAndListOfCartItems() throws Exception {
 
-            given(countCartItemsUseCase.countCartItems(1L))
+            given(countCartItemsInputPort.countCartItems(1L))
                     .willReturn(7L);
 
             mockMvc.perform(get("/v1/carts/{cartId}/items/count", 1L)
@@ -80,7 +80,7 @@ class CartItemRestAdapterTest {
         @DisplayName("Should return not found status when cart does not exists")
         void shouldReturnNotFoundStatusWhenCartDoesNotExist() throws Exception {
 
-            given(countCartItemsUseCase.countCartItems(1L))
+            given(countCartItemsInputPort.countCartItems(1L))
                     .willThrow(new UnExistingResourceException("Cart not found"));
 
             mockMvc.perform(get("/v1/carts/{cartId}/items/count", 1L)

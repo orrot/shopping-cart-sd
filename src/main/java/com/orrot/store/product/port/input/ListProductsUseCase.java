@@ -1,9 +1,8 @@
 package com.orrot.store.product.port.input;
 
-import com.orrot.store.product.adapter.output.ProductRepository;
 import com.orrot.store.product.domain.model.Product;
 import com.orrot.store.product.port.output.ProductOutputPort;
-import com.orrot.store.product.port.usecase.ListProductsUseCase;
+import com.orrot.store.product.port.usecase.ListProductsInputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ListProductsInputPort implements ListProductsUseCase {
+public class ListProductsUseCase implements ListProductsInputPort {
 
     private final ProductOutputPort productOutputPort;
 

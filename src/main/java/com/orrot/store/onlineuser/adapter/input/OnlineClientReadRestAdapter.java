@@ -3,8 +3,8 @@ package com.orrot.store.onlineuser.adapter.input;
 import com.orrot.store.common.rest.ResourcesURI;
 import com.orrot.store.onlineuser.adapter.input.json.OnlineClientView;
 import com.orrot.store.onlineuser.adapter.input.json.mapper.OnlineClientJsonViewMapper;
-import com.orrot.store.onlineuser.port.usecase.GetOnlineClientByIdUseCase;
-import com.orrot.store.onlineuser.port.usecase.ListOnlineClientUseCase;
+import com.orrot.store.onlineuser.port.input.GetOnlineClientByIdInputPort;
+import com.orrot.store.onlineuser.port.input.ListOnlineClientInputPort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +28,8 @@ import java.util.Optional;
 public class OnlineClientReadRestAdapter {
 
     private final OnlineClientJsonViewMapper mapper;
-    private final ListOnlineClientUseCase listOnlineClientUseCase;
-    private final GetOnlineClientByIdUseCase getOnlineClientByIdUseCase;
+    private final ListOnlineClientInputPort listOnlineClientInputPort;
+    private final GetOnlineClientByIdInputPort getOnlineClientByIdInputPort;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -37,7 +37,7 @@ public class OnlineClientReadRestAdapter {
     public Page<OnlineClientView> list(
             @ParameterObject @PageableDefault(size = 20) Pageable pageable) {
 
-        return listOnlineClientUseCase.listOnlineClients(pageable)
+        return listOnlineClientInputPort.listOnlineClients(pageable)
                 .map(mapper::mapToView);
     }
 
@@ -46,7 +46,7 @@ public class OnlineClientReadRestAdapter {
     @Operation(summary = "Get clients that buy online by ID")
     public OnlineClientView findById(@PathVariable("id") Long id) {
         return Optional.of(id)
-                .map(getOnlineClientByIdUseCase::findById)
+                .map(getOnlineClientByIdInputPort::findById)
                 .map(mapper::mapToView)
                 .orElseThrow();
     }

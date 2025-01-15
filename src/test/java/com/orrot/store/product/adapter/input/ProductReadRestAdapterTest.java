@@ -6,8 +6,8 @@ import com.orrot.store.config.web.SecurityConfig;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapper;
 import com.orrot.store.product.adapter.input.json.mapper.ProductJsonViewMapperImpl;
 import com.orrot.store.product.domain.model.Product;
-import com.orrot.store.product.port.usecase.GetProductByIdUseCase;
-import com.orrot.store.product.port.usecase.ListProductsUseCase;
+import com.orrot.store.product.port.usecase.GetProductByIdInputPort;
+import com.orrot.store.product.port.usecase.ListProductsInputPort;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -43,10 +43,10 @@ class ProductReadRestAdapterTest {
     private ProductJsonViewMapper mapper;
 
     @MockBean
-    private ListProductsUseCase listProductsUseCase;
+    private ListProductsInputPort listProductsInputPort;
 
     @MockBean
-    private GetProductByIdUseCase getProductByIdUseCase;
+    private GetProductByIdInputPort getProductByIdInputPort;
 
     @Nested
     @DisplayName("When listing products")
@@ -58,7 +58,7 @@ class ProductReadRestAdapterTest {
             var product = MockerFactory.createDummy(Product.class);
             var pageable = PageRequest.of(0, 20);
 
-            given(listProductsUseCase.listProducts(eq(pageable)))
+            given(listProductsInputPort.listProducts(eq(pageable)))
                     .willReturn(new PageImpl<>(List.of(product), pageable, 1));
 
             mockMvc.perform(get("/v1/products")
@@ -80,7 +80,7 @@ class ProductReadRestAdapterTest {
         @DisplayName("Should return ok status and the product")
         void shouldReturnOkStatusAndProduct() throws Exception {
             var product = MockerFactory.createDummy(Product.class);
-            given(getProductByIdUseCase.findById(product.getId()))
+            given(getProductByIdInputPort.findById(product.getId()))
                     .willReturn(product);
 
             mockMvc.perform(get("/v1/products/{id}", product.getId())

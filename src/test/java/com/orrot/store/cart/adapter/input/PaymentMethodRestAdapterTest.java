@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.orrot.store.cart.adapter.input.json.mapper.PaymentMethodJsonViewMapper;
 import com.orrot.store.cart.adapter.input.json.mapper.PaymentMethodJsonViewMapperImpl;
 import com.orrot.store.cart.domain.model.PaymentMethod;
-import com.orrot.store.cart.port.usecase.ListPaymentMethodsUseCase;
+import com.orrot.store.cart.port.input.ListPaymentMethodsInputPort;
 import com.orrot.store.common.podam.MockerFactory;
 import com.orrot.store.config.web.SecurityConfig;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ class PaymentMethodRestAdapterTest {
     private PaymentMethodJsonViewMapper mapper;
 
     @MockBean
-    private ListPaymentMethodsUseCase listPaymentMethodsUseCase;
+    private ListPaymentMethodsInputPort listPaymentMethodsInputPort;
 
     @Nested
     @DisplayName("When listing payment methods")
@@ -54,7 +54,7 @@ class PaymentMethodRestAdapterTest {
             var paymentMethod = MockerFactory.createDummy(PaymentMethod.class);
             var pageable = PageRequest.of(0, 20);
 
-            given(listPaymentMethodsUseCase.listPaymentMethods(eq(pageable)))
+            given(listPaymentMethodsInputPort.listPaymentMethods(eq(pageable)))
                     .willReturn(new PageImpl<>(List.of(paymentMethod), pageable, 1));
 
             mockMvc.perform(get("/v1/payment-methods")

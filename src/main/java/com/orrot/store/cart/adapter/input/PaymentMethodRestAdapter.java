@@ -2,7 +2,7 @@ package com.orrot.store.cart.adapter.input;
 
 import com.orrot.store.cart.adapter.input.json.PaymentMethodView;
 import com.orrot.store.cart.adapter.input.json.mapper.PaymentMethodJsonViewMapper;
-import com.orrot.store.cart.port.usecase.ListPaymentMethodsUseCase;
+import com.orrot.store.cart.port.input.ListPaymentMethodsInputPort;
 import com.orrot.store.common.rest.ResourcesURI;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentMethodRestAdapter {
 
     private final PaymentMethodJsonViewMapper mapper;
-    private final ListPaymentMethodsUseCase listPaymentMethodsUseCase;
+    private final ListPaymentMethodsInputPort listPaymentMethodsInputPort;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "List all payment methods")
     public Page<PaymentMethodView> listPayments(@ParameterObject @PageableDefault(size = 20) Pageable pageable) {
         // Query
-        return listPaymentMethodsUseCase.listPaymentMethods(pageable)
+        return listPaymentMethodsInputPort.listPaymentMethods(pageable)
                 .map(mapper::mapToView);
     }
 }
