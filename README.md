@@ -28,7 +28,7 @@ Even some data is created by default.
 
 - Clone the repository
 ```
-git clone https://github.com/orrot/shopping-cart-sd.git;
+git clone https://github.com/orrot/shopping-cart-sd.git
 ``` 
 
 - Go to the root of the repo and start the required infrastructure (for the moment only a MySQL instance):
