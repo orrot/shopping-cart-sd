@@ -3,6 +3,8 @@
 ## Content Table
 
 Yoy do not need to read all the document. Just "How To Run The Project" section is required.
+The API is prepared so you can play with it using Swagger and without requiring DB access.
+Even some data is created by default.
 
 - [How To Run The Project](#how-to-run-the-project)
 
