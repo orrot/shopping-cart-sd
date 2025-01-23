@@ -12,7 +12,7 @@ public interface ProductOutputPort {
 
     Product create(Product productToCreate);
 
-    Product update(Long productId, Product productToUpdate);
+    Product update(Product productToUpdate);
 
     Page<Product> findAll(Pageable pageable);
 }

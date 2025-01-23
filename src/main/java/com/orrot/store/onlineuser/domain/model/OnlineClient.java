@@ -1,5 +1,6 @@
 package com.orrot.store.onlineuser.domain.model;
 
+import com.orrot.store.common.jpa.IdentifiableById;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,7 +20,7 @@ import lombok.With;
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
-public class OnlineClient {
+public class OnlineClient implements IdentifiableById<Long> {
 
     private Long id;
 

@@ -29,8 +29,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product update(@NotNull @Valid Product productToUpdate) {
 
-        return productOutputPort.update(
-                productToUpdate.getId(), productToUpdate);
+        return productOutputPort.update(productToUpdate);
     }
 
     @Override

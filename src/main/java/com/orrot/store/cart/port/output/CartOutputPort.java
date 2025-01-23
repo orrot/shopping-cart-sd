@@ -8,7 +8,7 @@ public interface CartOutputPort {
 
     Cart create(Cart cartToCreate);
 
-    void update(Cart cartToUpdate);
+    Cart update(Cart cartToUpdate);
 
     boolean existsById(Long id);
 

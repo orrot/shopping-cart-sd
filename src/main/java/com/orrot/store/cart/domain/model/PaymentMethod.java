@@ -1,5 +1,6 @@
 package com.orrot.store.cart.domain.model;
 
+import com.orrot.store.common.jpa.IdentifiableById;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ import java.util.function.UnaryOperator;
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
-public class PaymentMethod {
+public class PaymentMethod implements IdentifiableById<String> {
 
     @NotEmpty(message = "Code in payment must not be empty")
     @NonNull
@@ -43,5 +44,10 @@ public class PaymentMethod {
             return total.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO :
                     total.add(total.multiply(percentageValueToUse)).add(fixedValueToUse);
         };
+    }
+
+    @Override
+    public String getId() {
+        return getCode();
     }
 }

@@ -1,6 +1,7 @@
 package com.orrot.store.product.domain.model;
 
 import com.orrot.store.cart.domain.exception.InvalidProductException;
+import com.orrot.store.common.jpa.IdentifiableById;
 import io.vavr.control.Either;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,7 +24,7 @@ import java.util.function.Function;
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
-public class Product {
+public class Product implements IdentifiableById<Long> {
 
     public static final String ERROR_NO_VALID_PRODUCT = "Product should contain a non-null id, a non-null name and a non-null currentPrice";
 

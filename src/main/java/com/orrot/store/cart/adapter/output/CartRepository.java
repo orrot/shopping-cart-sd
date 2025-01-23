@@ -29,14 +29,6 @@ public class CartRepository extends BaseDomainRepository<Cart, CartJpaEntity, Lo
     }
 
     @Override
-    public void update(Cart cartToUpdate) {
-        Either.<DomainSavingException, Cart>right(cartToUpdate)
-                .map(Cart::getId)
-                .map(cartId -> update(cartId, cartToUpdate))
-                .getOrElseThrow(Function.identity());
-    }
-
-    @Override
     public Long findSumOfItems(Long cartId) {
         return Optional.ofNullable(cartId)
                 .map(cartJpaRepository::findQuantitySumByCartId)

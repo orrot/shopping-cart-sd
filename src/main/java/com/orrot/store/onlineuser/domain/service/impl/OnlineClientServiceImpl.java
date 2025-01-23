@@ -29,8 +29,7 @@ public class OnlineClientServiceImpl implements OnlineClientService {
     @Override
     public OnlineClient update(@NotNull @Valid OnlineClient onlineClientToUpdate) {
 
-        return onlineClientOutputPort.update(
-                onlineClientToUpdate.getId(), onlineClientToUpdate);
+        return onlineClientOutputPort.update(onlineClientToUpdate);
     }
 
     @Override

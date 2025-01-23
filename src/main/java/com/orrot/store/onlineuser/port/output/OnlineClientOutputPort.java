@@ -12,7 +12,7 @@ public interface OnlineClientOutputPort {
 
     OnlineClient create(OnlineClient onlineClientToCreate);
 
-    OnlineClient update(Long id, OnlineClient onlineClientToUpdate);
+    OnlineClient update(OnlineClient onlineClientToUpdate);
 
     boolean existsById(Long id);
 

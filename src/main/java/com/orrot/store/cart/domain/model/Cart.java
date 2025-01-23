@@ -1,5 +1,6 @@
 package com.orrot.store.cart.domain.model;
 
+import com.orrot.store.common.jpa.IdentifiableById;
 import com.orrot.store.product.domain.model.Product;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +31,7 @@ import java.util.SequencedMap;
 @EqualsAndHashCode(callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
 @With
-public class Cart implements Serializable {
+public class Cart implements Serializable, IdentifiableById<Long> {
     @Serial
     private static final long serialVersionUID = -5512687501901452445L;
 

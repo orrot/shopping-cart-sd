@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("INTEGRATION TEST: During General Cart Information Creation and Updates")
 public class CartIT extends AbstractContainerBaseTest {
 
-    private static final Long CART_ID_CLIENT_UPDATE = -1L;
     private static final Long CART_ID_PAYMENT_UPDATE = -2L;
     private static final Long CART_ID_WITH_ITEMS = -3L;
     private static final Gson gson = new Gson();
