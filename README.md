@@ -21,6 +21,11 @@ Even some data is created by default.
 - Maven
 - Java 21
 
+### Configs
+
+- Check in the compose.yml file the path of the Volume. It should be a folder with write permissions for Docker
+- Check the DOCKER HOST configuration in the AbstractContainerBaseTest. The current URL is a custom one for my machine, probably you can just remove it for a different machine.
+
 ### Steps
 
 - Clone the repository

@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService {
     }
 
     private void throwExceptionIfBrokenRule(Cart cartToProcess) {
-        var combinedResult = CartRule.combineRules(cartToProcess, cartRules)
+        var combinedResult = CartRule.combineRules(cartRules)
                 .isSatisfiedBy(cartToProcess);
         if (combinedResult.isRuleNotSatisfied()) {
             throw new BusinessRuleException(

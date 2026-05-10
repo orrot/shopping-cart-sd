@@ -36,7 +36,7 @@ public interface BusinessSpecification<T> {
      * @return
      * @param <T>
      */
-    static <T> BusinessSpecification<T> and(T object, Collection<? extends BusinessSpecification<T>> specifications) {
+    static <T> BusinessSpecification<T> and(Collection<? extends BusinessSpecification<T>> specifications) {
 
         return specifications
                 .stream()
