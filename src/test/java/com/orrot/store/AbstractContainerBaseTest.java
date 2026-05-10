@@ -14,9 +14,6 @@ public abstract class AbstractContainerBaseTest {
 
     static {
         // Explicitly set Docker host and API version for Testcontainers
-        System.setProperty("DOCKER_HOST", "unix:///var/run/docker.sock");
-        System.setProperty("TESTCONTAINERS_DOCKER_API_VERSION", "1.40"); // Minimum API version required
-
         MY_SQL_CONTAINER = new MySQLContainer<>(IMG_MY_SQL);
         MY_SQL_CONTAINER = MY_SQL_CONTAINER
                 .withDatabaseName("shopping-cart-test")
